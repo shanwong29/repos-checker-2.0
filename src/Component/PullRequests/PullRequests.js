@@ -4,11 +4,12 @@ const PullRequests = props => {
   console.log(props);
 
   let pullRequests = props.pullRequests.edges.map(el => {
+    let author = el.node.author.login;
     return (
       <>
-        <h4>
-          {el.node.title} <span>{el.node.createdAt}</span>
-        </h4>
+        <span>{author}</span>
+        <span>{el.node.createdAt}</span>
+        <h4>{el.node.title}</h4>
       </>
     );
   });
