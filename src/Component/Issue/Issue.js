@@ -1,13 +1,13 @@
 import React, { useState, Fragment } from "react";
 
 const Issue = props => {
-  const [activeComment, setActiveComment] = useState("");
+  const [activeIssue, setActiveIssue] = useState("");
 
   let issue = props.issue.edges.map((el, issueIndex) => {
     let comments = el.node.comments.edges;
 
     let commentsInfo = comments.map((el, key) => {
-      return activeComment === issueIndex ? (
+      return activeIssue === issueIndex ? (
         <Fragment key={key}>
           <p style={{ color: "grey" }}>
             {el.node.bodyText} <span>{el.node.createdAt}</span>
@@ -20,18 +20,18 @@ const Issue = props => {
 
     return (
       <>
-        <h4
+        <div
           onClick={() => {
-            if (issueIndex === activeComment) {
-              setActiveComment(null);
+            if (issueIndex === activeIssue) {
+              setActiveIssue(null);
             } else {
-              setActiveComment(issueIndex);
+              setActiveIssue(issueIndex);
             }
           }}
         >
-          Issue Title:
-          {el.node.title} <span>{el.node.createdAt}</span>
-        </h4>
+          <span>{el.node.createdAt}</span>
+          <h4>{el.node.title}</h4>
+        </div>
         {commentsInfo}
       </>
     );
