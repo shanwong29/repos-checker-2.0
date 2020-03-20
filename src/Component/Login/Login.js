@@ -21,7 +21,7 @@ const Login = () => {
           }}
           placeholder="Paste your GitHub token"
         />
-        <button>SUBMIT</button>
+        <button>Login</button>
       </form>
     </section>
   );

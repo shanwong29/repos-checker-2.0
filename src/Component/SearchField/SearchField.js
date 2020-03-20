@@ -11,8 +11,7 @@ const SearchField = props => {
         value={props.reposQuery}
         onChange={event => props.setReposQuery(event.target.value)}
       />
-      <br />
-      <input type="submit" value="Submit" />
+      <button>Search</button>
     </form>
   );
 };
