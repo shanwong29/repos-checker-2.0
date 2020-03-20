@@ -5,13 +5,16 @@ const Issue = props => {
 
   let issue = props.issue.edges.map((el, issueIndex) => {
     let comments = el.node.comments.edges;
+    let issueAuthor = el.node.author.login;
 
     let commentsInfo = comments.map((el, key) => {
+      let commentAuthor = el.node.author.login;
       return activeIssue === issueIndex ? (
         <Fragment key={key}>
-          <p style={{ color: "grey" }}>
-            {el.node.bodyText} <span>{el.node.createdAt}</span>
-          </p>
+          <div>
+            {commentAuthor} {el.node.createdAt}
+          </div>
+          <p style={{ color: "grey" }}>{el.node.bodyText}</p>
         </Fragment>
       ) : (
         <></>
@@ -29,7 +32,10 @@ const Issue = props => {
             }
           }}
         >
-          <span>{el.node.createdAt}</span>
+          <span>
+            {issueAuthor}
+            {el.node.createdAt}
+          </span>
           <h4>{el.node.title}</h4>
         </div>
         {commentsInfo}

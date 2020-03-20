@@ -44,6 +44,9 @@ const GET_REPOS = gql`
   fragment issueInfo on Issue {
     title
     createdAt
+    author {
+      login
+    }
     comments(last: 5) {
       edges {
         node {
