@@ -1,4 +1,5 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
+import IssueComments from "../IssueComments/IssueComments";
 
 const Issue = props => {
   const [activeIssue, setActiveIssue] = useState("");
@@ -6,20 +7,6 @@ const Issue = props => {
   let issue = props.issue.edges.map((el, issueIndex) => {
     let comments = el.node.comments.edges;
     let issueAuthor = el.node.author.login;
-
-    let commentsInfo = comments.map((el, key) => {
-      let commentAuthor = el.node.author.login;
-      return activeIssue === issueIndex ? (
-        <Fragment key={key}>
-          <div>
-            {commentAuthor} {el.node.createdAt}
-          </div>
-          <p style={{ color: "grey" }}>{el.node.bodyText}</p>
-        </Fragment>
-      ) : (
-        <></>
-      );
-    });
 
     return (
       <>
@@ -38,7 +25,11 @@ const Issue = props => {
           </span>
           <h4>{el.node.title}</h4>
         </div>
-        {commentsInfo}
+        {activeIssue === issueIndex ? (
+          <IssueComments comments={comments} issueAuthor={issueAuthor} />
+        ) : (
+          <></>
+        )}
       </>
     );
   });
