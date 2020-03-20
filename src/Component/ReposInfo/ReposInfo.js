@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 import PullRequests from "../pullRequests/pullRequests";
+import Issue from "../Issue/Issue";
 
 const GET_REPOS = gql`
   query {
@@ -36,6 +37,7 @@ const GET_REPOS = gql`
 
   fragment issueInfo on Issue {
     title
+    createdAt
     comments(last: 5) {
       edges {
         node {
@@ -59,6 +61,10 @@ const ReposInfo = props => {
     <>
       <h1>{data.repository.name}</h1>
       <PullRequests pullRequests={pullRequests} />
+      <h3>Open Issue:</h3>
+      <Issue issue={openIssue} />
+      <h3>Closed Issue:</h3>
+      <Issue issue={closedIssue} />
     </>
   );
 };
