@@ -1,7 +1,13 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 
 const IssueComments = props => {
-  let commentsInfo = props.comments.map((el, key) => {
+  const [commentQuery, setCommentQuery] = useState("");
+
+  let filteredComments = props.comments.filter(el => {
+    return el.node.bodyText.includes(commentQuery);
+  });
+
+  filteredComments = filteredComments.map((el, key) => {
     let commentAuthor = el.node.author.login;
     return (
       <Fragment key={key}>
@@ -13,7 +19,21 @@ const IssueComments = props => {
     );
   });
 
-  return commentsInfo;
+  return props.comments.length ? (
+    <>
+      <label for="commentQuery">Filter comments by keyword(s): </label>
+      <input
+        name="commentQuery"
+        type="text"
+        placeholder="type keyword(s) here..."
+        value={commentQuery}
+        onChange={event => setCommentQuery(event.target.value)}
+      />
+      {filteredComments}
+    </>
+  ) : (
+    <h5>No comments for this issue</h5>
+  );
 };
 
 export default IssueComments;
