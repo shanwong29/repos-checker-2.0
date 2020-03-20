@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import FormattedDate from "../FormattedDate/FormattedDate";
 
 const IssueComments = props => {
   const [commentQuery, setCommentQuery] = useState("");
@@ -12,7 +13,8 @@ const IssueComments = props => {
     return (
       <Fragment key={key}>
         <div>
-          {commentAuthor} {el.node.createdAt}
+          <span>{commentAuthor} &#8226; </span>
+          <FormattedDate date={el.node.createdAt} />
         </div>
         <p style={{ color: "grey" }}>{el.node.bodyText}</p>
       </Fragment>

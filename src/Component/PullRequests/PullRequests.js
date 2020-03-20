@@ -1,4 +1,5 @@
 import React from "react";
+import FormattedDate from "../FormattedDate/FormattedDate";
 
 const PullRequests = props => {
   console.log(props);
@@ -7,8 +8,8 @@ const PullRequests = props => {
     let author = el.node.author.login;
     return (
       <>
-        <span>{author}</span>
-        <span>{el.node.createdAt}</span>
+        <span>{author} &#8226; </span>
+        <FormattedDate date={el.node.createdAt} />
         <h4>{el.node.title}</h4>
       </>
     );

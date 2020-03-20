@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import IssueComments from "../IssueComments/IssueComments";
+import FormattedDate from "../FormattedDate/FormattedDate";
 
 const Issue = props => {
   const [activeIssue, setActiveIssue] = useState("");
@@ -19,10 +20,9 @@ const Issue = props => {
             }
           }}
         >
-          <span>
-            {issueAuthor}
-            {el.node.createdAt}
-          </span>
+          <span>{issueAuthor} &#8226; </span>
+          <FormattedDate date={el.node.createdAt} />
+
           <h4>{el.node.title}</h4>
         </div>
         {activeIssue === issueIndex ? (
