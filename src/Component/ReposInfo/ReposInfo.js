@@ -2,18 +2,24 @@ import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
-import PullRequests from "../pullRequests/pullRequests";
+import PullRequests from "../PullRequests/PullRequests";
 import Issue from "../Issue/Issue";
 
 const GET_REPOS = gql`
   query {
     repository(owner: "sindresorhus", name: "awesome") {
-      id
       name
+      owner {
+        login
+      }
       pullRequests(last: 5) {
         edges {
           node {
+            author {
+              login
+            }
             title
+            bodyText
             createdAt
           }
         }
@@ -41,6 +47,9 @@ const GET_REPOS = gql`
     comments(last: 5) {
       edges {
         node {
+          author {
+            login
+          }
           createdAt
           bodyText
         }
