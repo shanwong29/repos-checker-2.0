@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import IssueComments from "../IssueComments/IssueComments";
 import FormattedDate from "../FormattedDate/FormattedDate";
 
+import classes from "./Issue.module.css";
+
 const Issue = props => {
   const [activeIssue, setActiveIssue] = useState("");
 
@@ -12,6 +14,7 @@ const Issue = props => {
     return (
       <>
         <div
+          className={`info_wrapper ${classes.issue}`}
           onClick={() => {
             if (issueIndex === activeIssue) {
               setActiveIssue(null);

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import ReposInfo from "../ReposInfo/ReposInfo";
 import SearchField from "../../Component/SearchField/SearchField";
 import Login from "../../Component/Login/Login";
-import "./App.css";
+import classes from "./App.module.css";
 
 const App = props => {
   const accessToken = localStorage.getItem("token");
@@ -28,25 +28,28 @@ const App = props => {
   };
 
   return (
-    <>
+    <div className={classes.App}>
+      {accessToken && (
+        <button className={classes.logoutBtn} onClick={logout}>
+          Logout
+        </button>
+      )}
+
+      <h1 className={classes.app_title}>Repos Checker</h1>
+
       {accessToken ? (
-        <div className="App">
-          <button className="" onClick={logout}>
-            Logout
-          </button>
-          <h1>Repos Checker</h1>
+        <>
           <SearchField
             reposQuery={reposQuery}
             setReposQuery={setReposQuery}
             handleSubmit={handleSubmit}
           />
-
           <ReposInfo />
-        </div>
+        </>
       ) : (
         <Login token={token} setToken={setToken} login={login} />
       )}
-    </>
+    </div>
   );
 };
 

@@ -5,6 +5,8 @@ import { gql } from "apollo-boost";
 import PullRequests from "../../Component/PullRequests/PullRequests";
 import Issue from "../../Component/Issue/Issue";
 
+import classes from "./ReposInfo.module.css";
+
 const GET_REPOS = gql`
   query {
     repository(owner: "sindresorhus", name: "awesome") {
@@ -66,43 +68,49 @@ const ReposInfo = props => {
 
   const { loading, error, data } = useQuery(GET_REPOS);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (loading) return <p className={classes.reposInfo}>Loading...</p>;
+  if (error) return <p className={classes.reposInfo}>Error :(</p>;
 
   let { pullRequests, openIssues, closedIssues } = data.repository;
 
   return (
-    <>
+    <div className={classes.reposInfo}>
       <h1>{data.repository.name}</h1>
-      <div>
-        <button
+      <div className={classes.tap_wrapper}>
+        <h4
+          className={`${classes.tap} ${currentTab === "pullRequests" &&
+            classes.active_tab}`}
           onClick={() => {
             setCurrentTab("pullRequests");
           }}
         >
           Pull Requests
-        </button>
-        <button
+        </h4>
+        <h4
+          className={`${classes.tap} ${currentTab === "openIssues" &&
+            classes.active_tab}`}
           onClick={() => {
             setCurrentTab("openIssues");
           }}
         >
           Open Issues
-        </button>
-        <button
+        </h4>
+        <h4
+          className={`${classes.tap} ${currentTab === "closedIssues" &&
+            classes.active_tab}`}
           onClick={() => {
             setCurrentTab("closedIssues");
           }}
         >
           Closed Issues
-        </button>
+        </h4>
       </div>
       {currentTab === "pullRequests" && (
         <PullRequests pullRequests={pullRequests} />
       )}
       {currentTab === "openIssues" && <Issue issue={openIssues} />}
       {currentTab === "closedIssues" && <Issue issue={closedIssues} />}
-    </>
+    </div>
   );
 };
 

@@ -1,0 +1,15 @@
+.App {
+  display: grid;
+  justify-content: center;
+}
+
+.logoutBtn {
+  justify-self: right;
+  margin-top: 1rem;
+}
+
+.app_title {
+  justify-self: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

@@ -1,0 +1,24 @@
+.reposInfo {
+  width: 80vw;
+  margin-top: 1rem;
+}
+
+.tap_wrapper {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.tap {
+  color: rgb(194, 134, 22);
+  cursor: pointer;
+  border: 1px solid #f2f2f2;
+  width: 100%;
+  padding: 5px 0;
+  font-weight: 200;
+}
+
+.active_tab {
+  font-weight: 700;
+}
