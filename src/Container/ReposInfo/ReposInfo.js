@@ -2,8 +2,8 @@ import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
-import PullRequests from "../PullRequests/PullRequests";
-import Issue from "../Issue/Issue";
+import PullRequests from "../../Component/PullRequests/PullRequests";
+import Issue from "../../Component/Issue/Issue";
 
 const GET_REPOS = gql`
   query {
@@ -71,6 +71,7 @@ const ReposInfo = props => {
 
   return (
     <>
+      <h3>Pull Requests:</h3>
       <h1>{data.repository.name}</h1>
       <PullRequests pullRequests={pullRequests} />
       <h3>Open Issue:</h3>

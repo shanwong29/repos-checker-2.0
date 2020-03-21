@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import ReposInfo from "./Component/ReposInfo/ReposInfo";
-import SearchField from "./Component/SearchField/SearchField";
-import Login from "./Component/Login/Login";
+import ReposInfo from "../ReposInfo/ReposInfo";
+import SearchField from "../../Component/SearchField/SearchField";
+import Login from "../../Component/Login/Login";
 import "./App.css";
 
 const App = props => {

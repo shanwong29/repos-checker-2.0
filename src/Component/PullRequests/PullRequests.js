@@ -14,12 +14,7 @@ const PullRequests = props => {
       </>
     );
   });
-  return (
-    <>
-      <h3>Pull Requests</h3>
-      {pullRequests}
-    </>
-  );
+  return pullRequests;
 };
 
 export default PullRequests;
