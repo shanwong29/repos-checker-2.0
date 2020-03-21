@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
@@ -24,14 +24,14 @@ const GET_REPOS = gql`
           }
         }
       }
-      openIssue: issues(states: OPEN, last: 5) {
+      openIssues: issues(states: OPEN, last: 5) {
         edges {
           node {
             ...issueInfo
           }
         }
       }
-      closedIssue: issues(states: CLOSED, last: 5) {
+      closedIssues: issues(states: CLOSED, last: 5) {
         edges {
           node {
             ...issueInfo
@@ -62,22 +62,46 @@ const GET_REPOS = gql`
 `;
 
 const ReposInfo = props => {
+  const [currentTab, setCurrentTab] = useState("pullRequests");
+
   const { loading, error, data } = useQuery(GET_REPOS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  let { pullRequests, openIssue, closedIssue } = data.repository;
+  let { pullRequests, openIssues, closedIssues } = data.repository;
 
   return (
     <>
-      <h3>Pull Requests:</h3>
       <h1>{data.repository.name}</h1>
-      <PullRequests pullRequests={pullRequests} />
-      <h3>Open Issue:</h3>
-      <Issue issue={openIssue} />
-      <h3>Closed Issue:</h3>
-      <Issue issue={closedIssue} />
+      <div>
+        <button
+          onClick={() => {
+            setCurrentTab("pullRequests");
+          }}
+        >
+          Pull Requests
+        </button>
+        <button
+          onClick={() => {
+            setCurrentTab("openIssues");
+          }}
+        >
+          Open Issues
+        </button>
+        <button
+          onClick={() => {
+            setCurrentTab("closedIssues");
+          }}
+        >
+          Closed Issues
+        </button>
+      </div>
+      {currentTab === "pullRequests" && (
+        <PullRequests pullRequests={pullRequests} />
+      )}
+      {currentTab === "openIssues" && <Issue issue={openIssues} />}
+      {currentTab === "closedIssues" && <Issue issue={closedIssues} />}
     </>
   );
 };
