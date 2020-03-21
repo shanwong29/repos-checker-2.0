@@ -1,23 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Login = () => {
-  const [token, setToken] = useState("");
-
-  const tokenSubmit = e => {
-    e.preventDefault();
-    localStorage.setItem("token", token);
-    window.location.reload();
-  };
-
+const Login = props => {
   return (
     <section>
-      <form onSubmit={tokenSubmit}>
+      <form onSubmit={props.login}>
         <input
           type="password"
           name="token"
-          value={token}
+          value={props.token}
           onChange={e => {
-            setToken(e.target.value);
+            props.setToken(e.target.value);
           }}
           placeholder="Paste your GitHub token"
         />

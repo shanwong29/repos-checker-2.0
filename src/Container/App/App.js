@@ -8,11 +8,18 @@ import "./App.css";
 const App = props => {
   const accessToken = localStorage.getItem("token");
 
+  const [token, setToken] = useState("");
   const [reposQuery, setReposQuery] = useState("");
 
   const handleSubmit = event => {
     event.preventDefault();
     console.log(reposQuery);
+  };
+
+  const login = e => {
+    e.preventDefault();
+    localStorage.setItem("token", token);
+    window.location.reload();
   };
 
   const logout = () => {
@@ -37,7 +44,7 @@ const App = props => {
           <ReposInfo />
         </div>
       ) : (
-        <Login />
+        <Login token={token} setToken={setToken} login={login} />
       )}
     </>
   );
