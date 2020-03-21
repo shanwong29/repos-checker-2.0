@@ -19,12 +19,13 @@ const FormattedDate = props => {
   let formattedDate = new Date(props.date);
   let date = formattedDate.getDate();
   let monthNum = formattedDate.getMonth();
-  let year = formattedDate.getFullYear();
   let month = monthEng[monthNum];
+  let year = formattedDate.getFullYear();
+  let time = props.date.slice(11, 16);
 
   return (
     <span>
-      {date} {month} {year}
+      {date} {month} {year} {time}
     </span>
   );
 };
