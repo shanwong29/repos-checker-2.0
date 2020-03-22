@@ -1,3 +1,8 @@
 .issue {
   cursor: pointer;
 }
+
+.issue_text {
+  background-color: #daeefa;
+  padding: 0 5px 5px 5px;
+}

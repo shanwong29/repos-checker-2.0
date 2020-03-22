@@ -10,6 +10,7 @@ const Issue = props => {
   let issue = props.issue.edges.map((el, issueIndex) => {
     let comments = el.node.comments.edges;
     let issueAuthor = el.node.author.login;
+    let issueText = el.node.bodyText;
 
     return (
       <>
@@ -29,7 +30,10 @@ const Issue = props => {
           <h4>{el.node.title}</h4>
         </div>
         {activeIssue === issueIndex ? (
-          <IssueComments comments={comments} issueAuthor={issueAuthor} />
+          <>
+            <p className={classes.issue_text}>{issueText}</p>
+            <IssueComments comments={comments} issueAuthor={issueAuthor} />
+          </>
         ) : (
           <></>
         )}

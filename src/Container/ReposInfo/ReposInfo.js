@@ -21,7 +21,6 @@ const GET_REPOS = gql`
               login
             }
             title
-            bodyText
             createdAt
           }
         }
@@ -46,6 +45,7 @@ const GET_REPOS = gql`
   fragment issueInfo on Issue {
     title
     createdAt
+    bodyText
     author {
       login
     }
