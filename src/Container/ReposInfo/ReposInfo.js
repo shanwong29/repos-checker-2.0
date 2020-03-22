@@ -65,8 +65,8 @@ const GET_REPOS = gql`
 
 const ReposInfo = ({ reposQuery }) => {
   reposQuery = reposQuery.split("/");
-  const owner = reposQuery[0];
-  const name = reposQuery[1];
+  const owner = reposQuery[0] && reposQuery[0].trim();
+  const name = reposQuery[1] && reposQuery[1].trim();
 
   const [currentTab, setCurrentTab] = useState("pullRequests");
 
