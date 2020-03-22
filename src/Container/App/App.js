@@ -11,9 +11,9 @@ const App = props => {
   const [token, setToken] = useState("");
   const [reposQuery, setReposQuery] = useState("");
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    console.log(reposQuery);
+  const handleSubmit = (e, input) => {
+    e.preventDefault();
+    setReposQuery(input.value);
   };
 
   const login = e => {
@@ -44,7 +44,7 @@ const App = props => {
             setReposQuery={setReposQuery}
             handleSubmit={handleSubmit}
           />
-          <ReposInfo />
+          {reposQuery && <ReposInfo reposQuery={reposQuery} />}
         </>
       ) : (
         <Login token={token} setToken={setToken} login={login} />

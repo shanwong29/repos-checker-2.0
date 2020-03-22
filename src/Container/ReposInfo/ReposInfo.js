@@ -8,8 +8,8 @@ import Issue from "../../Component/Issue/Issue";
 import classes from "./ReposInfo.module.css";
 
 const GET_REPOS = gql`
-  query {
-    repository(owner: "sindresorhus", name: "awesome") {
+  query($owner: String!, $name: String!) {
+    repository(owner: $owner, name: $name) {
       name
       owner {
         login
@@ -63,10 +63,16 @@ const GET_REPOS = gql`
   }
 `;
 
-const ReposInfo = props => {
+const ReposInfo = ({ reposQuery }) => {
+  reposQuery = reposQuery.split("/");
+  const owner = reposQuery[0];
+  const name = reposQuery[1];
+
   const [currentTab, setCurrentTab] = useState("pullRequests");
 
-  const { loading, error, data } = useQuery(GET_REPOS);
+  const { loading, error, data } = useQuery(GET_REPOS, {
+    variables: { owner, name }
+  });
 
   if (loading) return <p className={classes.reposInfo}>Loading...</p>;
   if (error) return <p className={classes.reposInfo}>Error :(</p>;
