@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import IssueComments from "../IssueComments/IssueComments";
 import FormattedDate from "../FormattedDate/FormattedDate";
 
 import classes from "./Issue.module.css";
 
-const Issue = props => {
+const Issue = ({ issue }) => {
   const [activeIssue, setActiveIssue] = useState("");
 
-  let issue = props.issue.edges.map((el, issueIndex) => {
+  issue = issue.edges.map((el, issueIndex) => {
     let comments = el.node.comments.edges;
     let issueAuthor = el.node.author.login;
     let issueText = el.node.bodyText;
 
     return (
-      <>
+      <Fragment key={issueIndex}>
         <div
           className={`info_wrapper ${classes.issue}`}
           onClick={() => {
@@ -25,19 +25,19 @@ const Issue = props => {
           }}
         >
           <span>{issueAuthor} &#8226; </span>
-          <FormattedDate date={el.node.createdAt} />
+          <FormattedDate timeStamp={el.node.createdAt} />
 
           <h4>{el.node.title}</h4>
-        </div>
-        {activeIssue === issueIndex ? (
-          <>
+
+          {activeIssue === issueIndex && (
             <p className={classes.issue_text}>{issueText}</p>
-            <IssueComments comments={comments} issueAuthor={issueAuthor} />
-          </>
-        ) : (
-          <></>
+          )}
+        </div>
+
+        {activeIssue === issueIndex && (
+          <IssueComments comments={comments} issueAuthor={issueAuthor} />
         )}
-      </>
+      </Fragment>
     );
   });
   return <>{issue}</>;

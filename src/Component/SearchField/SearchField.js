@@ -1,10 +1,16 @@
 import React from "react";
 
-const SearchField = props => {
+const SearchField = ({ setReposQuery }) => {
   let createdRef = "";
+
+  const handleQuerySubmit = (e, input) => {
+    e.preventDefault();
+    setReposQuery(input.value);
+  };
+
   return (
-    <form onSubmit={e => props.handleSubmit(e, createdRef)}>
-      <label for="reposQuery">Search Repos: </label>
+    <form onSubmit={e => handleQuerySubmit(e, createdRef)}>
+      <label htmlFor="reposQuery">Search Repos: </label>
       <input
         name="reposQuery"
         type="text"

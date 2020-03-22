@@ -5,16 +5,11 @@ import SearchField from "../../Component/SearchField/SearchField";
 import Login from "../../Component/Login/Login";
 import classes from "./App.module.css";
 
-const App = props => {
+const App = () => {
   const accessToken = localStorage.getItem("token");
 
   const [token, setToken] = useState("");
   const [reposQuery, setReposQuery] = useState("");
-
-  const handleSubmit = (e, input) => {
-    e.preventDefault();
-    setReposQuery(input.value);
-  };
 
   const login = e => {
     e.preventDefault();
@@ -39,11 +34,7 @@ const App = props => {
 
       {accessToken ? (
         <>
-          <SearchField
-            reposQuery={reposQuery}
-            setReposQuery={setReposQuery}
-            handleSubmit={handleSubmit}
-          />
+          <SearchField reposQuery={reposQuery} setReposQuery={setReposQuery} />
           {reposQuery && <ReposInfo reposQuery={reposQuery} />}
         </>
       ) : (

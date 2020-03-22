@@ -1,6 +1,6 @@
 import React from "react";
 
-const FormattedDate = props => {
+const FormattedDate = ({ timeStamp }) => {
   let monthEng = {
     0: "Jan",
     1: "Feb",
@@ -16,12 +16,12 @@ const FormattedDate = props => {
     11: "Dec"
   };
 
-  let formattedDate = new Date(props.date);
+  let formattedDate = new Date(timeStamp);
   let date = formattedDate.getDate();
   let monthNum = formattedDate.getMonth();
   let month = monthEng[monthNum];
   let year = formattedDate.getFullYear();
-  let time = props.date.slice(11, 16);
+  let time = timeStamp.slice(11, 16);
 
   return (
     <span>

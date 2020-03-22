@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import FormattedDate from "../FormattedDate/FormattedDate";
 import classes from "./IssueComments.module.css";
 
-const IssueComments = props => {
+const IssueComments = ({ comments }) => {
   const [commentQuery, setCommentQuery] = useState("");
 
-  let filteredComments = props.comments.filter(el => {
+  let filteredComments = comments.filter(el => {
     return el.node.bodyText.includes(commentQuery);
   });
 
@@ -14,17 +14,17 @@ const IssueComments = props => {
     return (
       <div className={classes.each_comment_wrapper} key={key}>
         <span>{commentAuthor} &#8226; </span>
-        <FormattedDate date={el.node.createdAt} />
+        <FormattedDate timeStamp={el.node.createdAt} />
 
         <p className={classes.comment_text}>{el.node.bodyText}</p>
       </div>
     );
   });
 
-  return props.comments.length ? (
+  return comments.length ? (
     <div className={classes.comments_wrapper}>
       <h4>Comments:</h4>
-      <label for="commentQuery">Filter comments by keyword(s): </label>
+      <label htmlFor="commentQuery">Filter comments by keyword(s): </label>
       <input
         name="commentQuery"
         type="text"
