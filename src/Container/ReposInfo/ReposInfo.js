@@ -70,12 +70,23 @@ const ReposInfo = ({ reposQuery }) => {
 
   const [currentTab, setCurrentTab] = useState("pullRequests");
 
-  const { loading, error, data } = useQuery(GET_REPOS, {
-    variables: { owner, name }
-  });
+  const { loading, error, data } = useQuery(
+    GET_REPOS,
+    {
+      variables: { owner, name }
+    },
+    { errorPolicy: "all" }
+  );
 
   if (loading) return <p className={classes.reposInfo}>Loading...</p>;
-  if (error) return <p className={classes.reposInfo}>Error :(</p>;
+
+  if (error) {
+    return error.graphQLErrors.map(({ message }, i) => (
+      <p className={classes.reposInfo} key={i}>
+        {message}
+      </p>
+    ));
+  }
 
   let { pullRequests, openIssues, closedIssues } = data.repository;
 
