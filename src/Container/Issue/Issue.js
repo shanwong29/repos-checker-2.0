@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from "react";
 import IssueComments from "../IssueComments/IssueComments";
-import FormattedDate from "../FormattedDate/FormattedDate";
+import FormattedDate from "../../Component/FormattedDate/FormattedDate";
 
 import classes from "./Issue.module.css";
 

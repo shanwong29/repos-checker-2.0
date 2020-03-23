@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 import PullRequests from "../../Component/PullRequests/PullRequests";
-import Issue from "../../Component/Issue/Issue";
+import Issue from "../Issue/Issue";
 
 import classes from "./ReposInfo.module.css";
 
