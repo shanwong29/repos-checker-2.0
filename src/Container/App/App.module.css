@@ -1,5 +1,6 @@
 .App {
   display: grid;
+  grid-template-columns: 80vw;
   justify-content: center;
 }
 
@@ -9,8 +10,13 @@
 }
 
 .app_title {
-  text-align: center;
   margin-top: 2rem;
   margin-bottom: 2rem;
-  width: 80vw;
+  justify-self: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .App {
+    grid-template-columns: 95vw;
+  }
 }
