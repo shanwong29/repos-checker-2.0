@@ -9,6 +9,18 @@ const IssueComments = ({ comments }) => {
     return el.node.bodyText.includes(commentQuery);
   });
 
+  filteredComments.sort((a, b) => {
+    let dateA = new Date(a.node.createdAt);
+    let dateB = new Date(b.node.createdAt);
+    if (dateA < dateB) {
+      return -1;
+    }
+    if (dateA > dateB) {
+      return 1;
+    }
+    return 0;
+  });
+
   filteredComments = filteredComments.map((el, key) => {
     let commentAuthor = el.node.author.login;
     return (

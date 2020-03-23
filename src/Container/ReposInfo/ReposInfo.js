@@ -14,7 +14,7 @@ const GET_REPOS = gql`
       owner {
         login
       }
-      pullRequests(last: 5) {
+      pullRequests(last: 5, orderBy: { field: CREATED_AT, direction: ASC }) {
         edges {
           node {
             author {
@@ -25,14 +25,22 @@ const GET_REPOS = gql`
           }
         }
       }
-      openIssues: issues(states: OPEN, last: 5) {
+      openIssues: issues(
+        states: OPEN
+        last: 5
+        orderBy: { field: CREATED_AT, direction: ASC }
+      ) {
         edges {
           node {
             ...issueInfo
           }
         }
       }
-      closedIssues: issues(states: CLOSED, last: 5) {
+      closedIssues: issues(
+        states: CLOSED
+        last: 5
+        orderBy: { field: CREATED_AT, direction: ASC}
+      ) {
         edges {
           node {
             ...issueInfo
