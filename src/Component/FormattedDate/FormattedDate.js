@@ -21,11 +21,12 @@ const FormattedDate = ({ timeStamp }) => {
   let monthNum = formattedDate.getMonth();
   let month = monthEng[monthNum];
   let year = formattedDate.getFullYear();
-  let time = timeStamp.slice(11, 16);
+  let hh = String(formattedDate.getHours()).padStart(2, "0");
+  let mm = String(formattedDate.getMinutes()).padStart(2, "0");
 
   return (
     <span>
-      {date} {month} {year} {time}
+      {date} {month} {year} {`${hh}:${mm}`}
     </span>
   );
 };
