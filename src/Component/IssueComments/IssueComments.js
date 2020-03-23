@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FormattedDate from "../../Component/FormattedDate/FormattedDate";
+import FormattedDate from "../FormattedDate/FormattedDate";
 import classes from "./IssueComments.module.css";
 
 const IssueComments = ({ comments }) => {

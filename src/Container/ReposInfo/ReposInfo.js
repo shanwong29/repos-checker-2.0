@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 import PullRequests from "../../Component/PullRequests/PullRequests";
-import Issue from "../Issue/Issue";
+import Issue from "../../Component/Issue/Issue";
 
 import classes from "./ReposInfo.module.css";
 
@@ -39,7 +39,7 @@ const GET_REPOS = gql`
       closedIssues: issues(
         states: CLOSED
         last: 5
-        orderBy: { field: CREATED_AT, direction: ASC}
+        orderBy: { field: CREATED_AT, direction: ASC }
       ) {
         edges {
           node {

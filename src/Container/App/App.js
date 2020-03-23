@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import ReposInfo from "../ReposInfo/ReposInfo";
-import SearchField from "../../Component/SearchField/SearchField";
+import SearchField from "../SearchField/SearchField";
 import Login from "../../Component/Login/Login";
 import classes from "./App.module.css";
 
