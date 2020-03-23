@@ -2,14 +2,17 @@ import React from "react";
 import classes from "./Login.module.css";
 
 const Login = props => {
+  let createdRef = "";
   return (
-    <form className={classes.login_form} onSubmit={props.login}>
+    <form
+      className={classes.login_form}
+      onSubmit={e => props.login(e, createdRef)}
+    >
       <input
         type="password"
         name="token"
-        value={props.token}
-        onChange={e => {
-          props.setToken(e.target.value);
+        ref={domEl => {
+          createdRef = domEl;
         }}
         placeholder="Paste your GitHub token"
       />
