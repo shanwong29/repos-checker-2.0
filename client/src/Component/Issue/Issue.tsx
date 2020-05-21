@@ -16,10 +16,18 @@ const Issue: React.FC<Iprops> = ({ issue }) => {
     let issueAuthor = el.node.author.login;
     let issueText = el.node.bodyText;
 
+    let shouldBottomBeRounded = false;
+    console.log(issueIndex, issue.edges.length, activeIssue);
+    if (issueIndex === issue.edges.length - 1 && issueIndex !== activeIssue) {
+      shouldBottomBeRounded = true;
+    }
+
     return (
       <Fragment key={issueIndex}>
         <div
-          className={`info_wrapper ${classes.issue}`}
+          className={`${
+            shouldBottomBeRounded ? classes.roundedIssue : classes.normalIssue
+          }`}
           onClick={() => {
             if (issueIndex === activeIssue) {
               setActiveIssue(null);
@@ -34,7 +42,7 @@ const Issue: React.FC<Iprops> = ({ issue }) => {
           <h4>{el.node.title}</h4>
 
           {activeIssue === issueIndex && (
-            <p className={classes.issue_text}>{issueText}</p>
+            <p className={classes.issueText}>{issueText}</p>
           )}
         </div>
 
@@ -42,7 +50,7 @@ const Issue: React.FC<Iprops> = ({ issue }) => {
       </Fragment>
     );
   });
-  return <div className={classes.data_wrapper}>{issue}</div>;
+  return <div className={classes.dataWrapper}>{issue}</div>;
 };
 
 export default Issue;

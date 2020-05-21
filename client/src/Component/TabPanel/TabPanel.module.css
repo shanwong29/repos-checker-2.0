@@ -1,25 +1,25 @@
-.tap_wrapper {
-  display: flex;
-  justify-content: space-around;
-  text-align: center;
+.tapWrapper {
   margin-top: 1rem;
 }
 
-.tap {
+.normalTap {
   color: #5e0b15;
   cursor: pointer;
   border: 1px solid #f2f2f2;
+  background: none;
   border-bottom: none;
-  width: 100%;
+  width: calc(100% / 3);
   padding: 5px 0 15px;
   position: relative;
   top: 10px;
+  font-size: 1rem;
   font-weight: 200;
   transition: 0.2s ease all;
   border-radius: 15px 15px 0 0;
 }
 
-.active_tab {
+.activeTab {
+  composes: normalTap;
   font-weight: 700;
   border: 1px solid #d4d2d2;
   border-bottom: none;

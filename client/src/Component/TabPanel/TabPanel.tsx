@@ -20,17 +20,18 @@ const TabPanel: React.FC<IProps> = ({ currentTab, setCurrentTab }) => {
     }
 
     return (
-      <h4
-        className={`${classes.tap} ${isActive && classes.active_tab}`}
+      <button
+        key={i}
+        className={`${isActive ? classes.activeTab : classes.normalTap}`}
         onClick={() => {
           setCurrentTab(el.representedState);
         }}
       >
         {el.label}
-      </h4>
+      </button>
     );
   });
 
-  return <div className={classes.tap_wrapper}>{displayTabs}</div>;
+  return <div className={classes.tapWrapper}>{displayTabs}</div>;
 };
 export default TabPanel;

@@ -31,30 +31,35 @@ const Comments: React.FC<IProps> = ({ comments }) => {
   filteredComments = filteredComments.map((el: any, key: number) => {
     let commentAuthor = el.node.author.login;
     return (
-      <div className={classes.each_comment_wrapper} key={key}>
+      <div className={classes.eachCommentWrapper} key={key}>
         <span>{commentAuthor} &#8226; </span>
         <span>{getFormattedDate(el.node.createdAt)}</span>
 
-        <p className={classes.comment_text}>{el.node.bodyText}</p>
+        <p className={classes.commentText}>{el.node.bodyText}</p>
       </div>
     );
   });
 
-  return comments.length ? (
-    <div className={classes.comments_wrapper}>
-      <h4>Comments:</h4>
-      <label htmlFor="commentQuery">Filter comments by keyword(s): </label>
-      <input
-        name="commentQuery"
-        type="text"
-        placeholder="type keyword(s) here..."
-        value={commentQuery}
-        onChange={(event) => setCommentQuery(event.target.value)}
-      />
-      {filteredComments}
+  return (
+    <div className={classes.commentsWrapper}>
+      {comments.length ? (
+        <>
+          <h4>Comments:</h4>
+          <label htmlFor="commentQuery">Filter comments by keyword(s): </label>
+          <input
+            className={classes.filter}
+            name="commentQuery"
+            type="text"
+            placeholder="type keyword(s) here..."
+            value={commentQuery}
+            onChange={(event) => setCommentQuery(event.target.value)}
+          />
+          {filteredComments}
+        </>
+      ) : (
+        <p>No comments for this issue</p>
+      )}
     </div>
-  ) : (
-    <p className={classes.each_comment_wrapper}>No comments for this issue</p>
   );
 };
 

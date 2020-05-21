@@ -1,17 +1,28 @@
-.issue {
+.normalIssue {
   cursor: pointer;
+  border-top: 1px #daacd7 solid;
+  background-color: #f0dfef;
+
+  padding: 5px;
+  z-index: 1;
+  position: relative;
+  /*The z-index attribute can only be used on positioned elements (absolute, relative or fixed).*/
 }
 
-.issue_text {
+.issueText {
   padding: 5px;
 }
 
-.data_wrapper {
+.roundedBottom {
+  border-radius: 0 0 15px 15px;
+}
+
+.roundedIssue {
+  composes: normalIssue roundedBottom;
+}
+
+.dataWrapper {
+  composes: roundedBottom;
   border: 1px #daacd7 solid;
   border-top: none;
-  background-color: #f0dfef;
-  padding-bottom: 10px;
-  border-radius: 0 0 15px 15px;
-  z-index: 1;
-  position: relative;
 }

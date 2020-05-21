@@ -6,8 +6,10 @@
   box-sizing: border-box;
 }
 
-.info_wrapper {
-  border-top: 1px #daacd7 solid;
-  background-color: #f0dfef;
-  padding: 5px;
+h1 {
+  color: #1d3557;
+}
+
+button {
+  outline: none;
 }

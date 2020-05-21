@@ -30,7 +30,7 @@ const App = () => {
 
   return (
     <div className={classes.App}>
-      <h1 className={classes.app_title}>Repos Checker</h1>
+      <h1 className={classes.appTitle}>Repos Checker</h1>
       <ReposQueryForm setReposQuery={setReposQuery} />
       <div className={classes.reposInfo}>
         {/* {isLoading && <p>loading...</p>} */}
