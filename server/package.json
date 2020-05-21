@@ -1,0 +1,27 @@
+{
+  "name": "repos-checker-server",
+  "version": "1.0.0",
+  "description": "repos checker server",
+  "main": "index.js",
+  "scripts": {
+    "prod": "tsc && node dist/index.js",
+    "dev": "ts-node-dev --respawn --transpileOnly ./src/index.ts",
+    "build": "tsc -p ."
+  },
+  "author": "Shan Wong",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "graphql-request": "^1.8.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.6",
+    "@types/node": "^14.0.1",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.9.2"
+  }
+}
