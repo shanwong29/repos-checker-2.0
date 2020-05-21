@@ -1,7 +1,12 @@
 import React from "react";
 import classes from "./TabPanel.module.css";
 
-const TabPanel = ({ currentTab, setCurrentTab }) => {
+interface IProps {
+  currentTab: any;
+  setCurrentTab: any;
+}
+
+const TabPanel: React.FC<IProps> = ({ currentTab, setCurrentTab }) => {
   const tabs = [
     { label: "Pull Requests", representedState: "pullRequests" },
     { label: "Open Issues", representedState: "openIssues" },

@@ -1,5 +1,9 @@
-export const getFormattedDate = (timeStamp) => {
-  let monthEng = {
+export const getFormattedDate = (timeStamp: string): string => {
+  interface MonthDict {
+    [key: number]: string;
+  }
+
+  let monthEng: MonthDict = {
     0: "Jan",
     1: "Feb",
     2: "Mar",

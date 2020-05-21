@@ -5,3 +5,13 @@
 .issue_text {
   padding: 5px;
 }
+
+.data_wrapper {
+  border: 1px #daacd7 solid;
+  border-top: none;
+  background-color: #f0dfef;
+  padding-bottom: 10px;
+  border-radius: 0 0 15px 15px;
+  z-index: 1;
+  position: relative;
+}

@@ -1,10 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getData } from "../service/getData";
 
-const useFetch = (reposQuery, currentTab) => {
-  const [reposData, setReposData] = useState(null);
-  const [errorFromGithubApi, setErrorFromGithubApi] = useState("");
-  const [errorFromServer, setErrorFromServer] = useState("");
+// interface repository {
+//   name: string;
+//   owner: string;
+//   pullRequests?: any;
+//   issues?: any;
+// }
+
+const useFetch = (
+  reposQuery: string,
+  currentTab: "pullRequests" | "openIssues" | "closedIssues"
+) => {
+  const [reposData, setReposData] = useState<any | null>(null);
+  const [errorFromGithubApi, setErrorFromGithubApi] = useState<string | null>(
+    null
+  );
+  const [errorFromServer, setErrorFromServer] = useState<string | null>(null);
   //   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -20,14 +32,19 @@ const useFetch = (reposQuery, currentTab) => {
 
     if (!owner || !name) {
       setReposData(null);
-      setErrorFromServer("");
+      setErrorFromServer(null);
       setErrorFromGithubApi(
         "Please provide owner and name of the selected repository."
       );
       return;
     }
 
-    let variables = { name, owner };
+    interface variables {
+      owner: string;
+      name: string;
+      states?: ["OPEN"] | ["CLOSED"];
+    }
+    let variables: variables = { name, owner };
     if (currentTab === "openIssues") {
       variables = { name, owner, states: ["OPEN"] };
     } else if (currentTab === "closedIssues") {
@@ -41,21 +58,27 @@ const useFetch = (reposQuery, currentTab) => {
     fetchData(path, variables);
   }, [reposQuery, currentTab]);
 
-  const fetchData = async (path, variables) => {
+  interface variables {
+    owner: string;
+    name: string;
+    states?: ["OPEN"] | ["CLOSED"];
+  }
+
+  const fetchData = async (path: string, variables: variables) => {
     // setIsLoading(true);
     try {
-      const response = await getData(path, variables);
+      const data = await getData(path, variables);
 
-      if (!response.repository) {
-        setErrorFromGithubApi(response.response.errors[0].message);
+      if (!data.repository) {
+        setErrorFromGithubApi(data.response.errors[0].message);
         setReposData(null);
-        setErrorFromServer("");
+        setErrorFromServer(null);
         // setIsLoading(false);
         return;
       }
-      setReposData(response.repository);
-      setErrorFromGithubApi("");
-      setErrorFromServer("");
+      setReposData(data.repository);
+      setErrorFromGithubApi(null);
+      setErrorFromServer(null);
       //   setIsLoading(false);
     } catch (err) {
       //error from server

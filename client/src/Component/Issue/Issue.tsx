@@ -4,10 +4,14 @@ import { getFormattedDate } from "../../service/getFormattedDate";
 
 import classes from "./Issue.module.css";
 
-const Issue = ({ issue }) => {
-  const [activeIssue, setActiveIssue] = useState("");
+interface Iprops {
+  issue: any;
+}
 
-  issue = issue.edges.map((el, issueIndex) => {
+const Issue: React.FC<Iprops> = ({ issue }) => {
+  const [activeIssue, setActiveIssue] = useState<number | null>(null);
+
+  issue = issue.edges.map((el: any, issueIndex: number) => {
     let comments = el.node.comments.edges;
     let issueAuthor = el.node.author.login;
     let issueText = el.node.bodyText;
@@ -34,9 +38,7 @@ const Issue = ({ issue }) => {
           )}
         </div>
 
-        {activeIssue === issueIndex && (
-          <IssueComments comments={comments} issueAuthor={issueAuthor} />
-        )}
+        {activeIssue === issueIndex && <IssueComments comments={comments} />}
       </Fragment>
     );
   });

@@ -7,7 +7,9 @@ import ReposQueryForm from "./Component/ReposQueryForm/ReposQueryForm";
 import useFetch from "./hooks/useFetch";
 
 const App = () => {
-  const [currentTab, setCurrentTab] = useState("pullRequests");
+  const [currentTab, setCurrentTab] = useState<
+    "pullRequests" | "openIssues" | "closedIssues"
+  >("pullRequests");
   const [reposQuery, setReposQuery] = useState("");
   const {
     reposData,

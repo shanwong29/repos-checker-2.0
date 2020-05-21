@@ -2,14 +2,21 @@ import React, { useState } from "react";
 import { getFormattedDate } from "../../service/getFormattedDate";
 import classes from "./Comments.module.css";
 
-const Comments = ({ comments }) => {
+/*By typing our component as an FC, 
+the React TypeScripts types allow us to handle children and defaultProps correctly.  */
+
+interface IProps {
+  comments: any;
+}
+
+const Comments: React.FC<IProps> = ({ comments }) => {
   const [commentQuery, setCommentQuery] = useState("");
 
-  let filteredComments = comments.filter((el) => {
+  let filteredComments = comments.filter((el: any) => {
     return el.node.bodyText.includes(commentQuery);
   });
 
-  filteredComments.sort((a, b) => {
+  filteredComments.sort((a: any, b: any) => {
     let dateA = new Date(a.node.createdAt);
     let dateB = new Date(b.node.createdAt);
     if (dateA < dateB) {
@@ -21,7 +28,7 @@ const Comments = ({ comments }) => {
     return 0;
   });
 
-  filteredComments = filteredComments.map((el, key) => {
+  filteredComments = filteredComments.map((el: any, key: number) => {
     let commentAuthor = el.node.author.login;
     return (
       <div className={classes.each_comment_wrapper} key={key}>

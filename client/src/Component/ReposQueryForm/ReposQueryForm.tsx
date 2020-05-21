@@ -1,7 +1,11 @@
 import React from "react";
 
-const ReposQueryForm = ({ setReposQuery }) => {
-  const handleSearchQuery = (e) => {
+interface IProps {
+  setReposQuery: (value: string) => void;
+}
+
+const ReposQueryForm: React.FC<IProps> = ({ setReposQuery }) => {
+  const handleSearchQuery = (e: any) => {
     e.preventDefault();
     let queryStr = e.target.queryInput.value;
     setReposQuery(queryStr);
