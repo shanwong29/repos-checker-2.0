@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import FormattedDate from "../FormattedDate/FormattedDate";
-import classes from "./IssueComments.module.css";
+import { getFormattedDate } from "../../service/getFormattedDate";
+import classes from "./Comments.module.css";
 
-const IssueComments = ({ comments }) => {
+const Comments = ({ comments }) => {
   const [commentQuery, setCommentQuery] = useState("");
 
-  let filteredComments = comments.filter(el => {
+  let filteredComments = comments.filter((el) => {
     return el.node.bodyText.includes(commentQuery);
   });
 
@@ -26,7 +26,7 @@ const IssueComments = ({ comments }) => {
     return (
       <div className={classes.each_comment_wrapper} key={key}>
         <span>{commentAuthor} &#8226; </span>
-        <FormattedDate timeStamp={el.node.createdAt} />
+        <span>{getFormattedDate(el.node.createdAt)}</span>
 
         <p className={classes.comment_text}>{el.node.bodyText}</p>
       </div>
@@ -42,7 +42,7 @@ const IssueComments = ({ comments }) => {
         type="text"
         placeholder="type keyword(s) here..."
         value={commentQuery}
-        onChange={event => setCommentQuery(event.target.value)}
+        onChange={(event) => setCommentQuery(event.target.value)}
       />
       {filteredComments}
     </div>
@@ -51,4 +51,4 @@ const IssueComments = ({ comments }) => {
   );
 };
 
-export default IssueComments;
+export default Comments;

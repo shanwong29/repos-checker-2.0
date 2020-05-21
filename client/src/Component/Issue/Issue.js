@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from "react";
-import IssueComments from "../IssueComments/IssueComments";
-import FormattedDate from "../FormattedDate/FormattedDate";
+import IssueComments from "../Comments/Comments";
+import { getFormattedDate } from "../../service/getFormattedDate";
 
 import classes from "./Issue.module.css";
 
@@ -25,7 +25,7 @@ const Issue = ({ issue }) => {
           }}
         >
           <span>{issueAuthor} &#8226; </span>
-          <FormattedDate timeStamp={el.node.createdAt} />
+          <span>{getFormattedDate(el.node.createdAt)}</span>
 
           <h4>{el.node.title}</h4>
 
@@ -40,7 +40,7 @@ const Issue = ({ issue }) => {
       </Fragment>
     );
   });
-  return <>{issue}</>;
+  return <div className={classes.data_wrapper}>{issue}</div>;
 };
 
 export default Issue;
