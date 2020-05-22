@@ -1,8 +1,6 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import IssueComments from "../Comments/Comments";
 import AuthorInfo from "../AuthorInfo/AuthorInfo";
-import ReactHtmlParser from "react-html-parser";
-
 import classes from "./Issue.module.css";
 
 interface Iprops {
@@ -11,6 +9,10 @@ interface Iprops {
 
 const Issue: React.FC<Iprops> = ({ issue }) => {
   const [activeIssue, setActiveIssue] = useState<number | null>(null);
+
+  useEffect(() => {
+    setActiveIssue(null);
+  }, [issue]);
 
   issue = issue.edges.map((el: any, issueIndex: number) => {
     const comments = el.node.comments.edges;
@@ -45,9 +47,10 @@ const Issue: React.FC<Iprops> = ({ issue }) => {
           <h4>{el.node.title}</h4>
         </div>
         {activeIssue === issueIndex && (
-          <div className={classes.issueText}>
-            {ReactHtmlParser(issueContent)}
-          </div>
+          <div
+            className={classes.issueText}
+            dangerouslySetInnerHTML={{ __html: issueContent }}
+          />
         )}
 
         {activeIssue === issueIndex && <IssueComments comments={comments} />}

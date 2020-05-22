@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import AuthorInfo from "../AuthorInfo/AuthorInfo";
 import classes from "./Comments.module.css";
-import ReactHtmlParser from "react-html-parser";
 
 /*By typing our component as an FC, 
 the React TypeScripts types allow us to handle children and defaultProps correctly.  */
@@ -40,9 +39,10 @@ const Comments: React.FC<IProps> = ({ comments }) => {
           timeStamp={el.node.createdAt}
         />
 
-        <div className={classes.commentText}>
-          {ReactHtmlParser(el.node.bodyHTML)}
-        </div>
+        <div
+          className={classes.commentText}
+          dangerouslySetInnerHTML={{ __html: el.node.bodyHTML }}
+        />
       </div>
     );
   });
