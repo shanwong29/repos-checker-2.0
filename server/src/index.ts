@@ -28,7 +28,7 @@ app.post("/api/pullRequests", async (req, res, next) => {
           node {
             title
             createdAt
-            bodyText
+            bodyHTML
             author {
               login
             }
@@ -39,7 +39,7 @@ app.post("/api/pullRequests", async (req, res, next) => {
                     login
                   }
                   createdAt
-                  bodyText
+                  bodyHTML
                 }
               }
             }
@@ -72,7 +72,7 @@ app.post("/api/issues", async (req, res, next) => {
           node {
             title
             createdAt
-            bodyText
+            bodyHTML
             author {
               login
             }
@@ -83,7 +83,7 @@ app.post("/api/issues", async (req, res, next) => {
                     login
                   }
                   createdAt
-                  bodyText
+                  bodyHTML
                 }
               }
             }
@@ -104,3 +104,13 @@ app.post("/api/issues", async (req, res, next) => {
 app.listen(PORT, () => {
   console.log(`server is running on ${PORT}`);
 });
+
+/*
+@value inputText: #457b9d;
+@value inputBorderLight: #f1faee;
+@value inputBorder: #a8dadc;
+@value issueBkg: #f0dfef;
+@value issueBorder: #daacd7;
+@value btn: #98c1d9;
+@value btnActive: #3d5a80;
+*/

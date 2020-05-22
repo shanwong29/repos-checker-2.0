@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { getFormattedDate } from "../../service/getFormattedDate";
 import classes from "./Comments.module.css";
+import ReactHtmlParser from "react-html-parser";
 
 /*By typing our component as an FC, 
 the React TypeScripts types allow us to handle children and defaultProps correctly.  */
@@ -13,7 +14,7 @@ const Comments: React.FC<IProps> = ({ comments }) => {
   const [commentQuery, setCommentQuery] = useState("");
 
   let filteredComments = comments.filter((el: any) => {
-    return el.node.bodyText.includes(commentQuery);
+    return el.node.bodyHTML.includes(commentQuery);
   });
 
   filteredComments.sort((a: any, b: any) => {
@@ -35,7 +36,9 @@ const Comments: React.FC<IProps> = ({ comments }) => {
         <span>{commentAuthor} &#8226; </span>
         <span>{getFormattedDate(el.node.createdAt)}</span>
 
-        <p className={classes.commentText}>{el.node.bodyText}</p>
+        <div className={classes.commentText}>
+          {ReactHtmlParser(el.node.bodyHTML)}
+        </div>
       </div>
     );
   });

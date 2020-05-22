@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from "react";
 import IssueComments from "../Comments/Comments";
 import { getFormattedDate } from "../../service/getFormattedDate";
+import ReactHtmlParser from "react-html-parser";
 
 import classes from "./Issue.module.css";
 
@@ -14,10 +15,9 @@ const Issue: React.FC<Iprops> = ({ issue }) => {
   issue = issue.edges.map((el: any, issueIndex: number) => {
     let comments = el.node.comments.edges;
     let issueAuthor = el.node.author.login;
-    let issueText = el.node.bodyText;
+    let issueContent = el.node.bodyHTML;
 
     let shouldBottomBeRounded = false;
-    console.log(issueIndex, issue.edges.length, activeIssue);
     if (issueIndex === issue.edges.length - 1 && issueIndex !== activeIssue) {
       shouldBottomBeRounded = true;
     }
@@ -42,7 +42,9 @@ const Issue: React.FC<Iprops> = ({ issue }) => {
           <h4>{el.node.title}</h4>
 
           {activeIssue === issueIndex && (
-            <p className={classes.issueText}>{issueText}</p>
+            <div className={classes.issueText}>
+              {ReactHtmlParser(issueContent)}
+            </div>
           )}
         </div>
 
