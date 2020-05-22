@@ -1,3 +1,17 @@
+@value inputText: #D85113; /* orange */
+@value inputBorderLight: #ffdab9; /*lightMelon*/
+@value inputBorder: #fbc4ab; /*melon*/
+@value issueBkg: #f0dfef; /*lightPurple*/
+@value issueBorder: #daacd7; /*purple*/
+@value submitBtnBkg: #ef8354; /*nudeOrange*/
+@value submitBtnActive: #dd6e42; /*rustOrange*/
+@value filterGrowLight: #f1faee; /*whiteBlue*/
+@value filterGrow: #a8dadc; /*lightblue*/
+@value filterText: #457b9d; /*blue*/
+@value tabText: #5e0b15; /*darkBrown*/
+@value tabBorder: #ffdca4; /*lightYellow*/
+@value tabBorderActive: #f4b942; /*yellow*/
+
 * {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -6,10 +20,22 @@
   box-sizing: border-box;
 }
 
+body {
+  background: #fdf6e3;
+}
+
 h1 {
-  color: #1d3557;
+  color: #4f6d7a;
 }
 
 button {
   outline: none;
+}
+
+pre {
+  background: #f8f9fa;
+  padding: 10px;
+  margin: 5px;
+  border: 1px #bcb8b1 solid;
+  overflow: auto;
 }

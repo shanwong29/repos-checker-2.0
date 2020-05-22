@@ -1,8 +1,10 @@
+@value colors: "../../index.css";
+@value issueBkg, issueBorder from colors;
+
 .normalIssue {
   cursor: pointer;
-  border-top: 1px #daacd7 solid;
-  background-color: #f0dfef;
-
+  border-top: 1px issueBorder solid;
+  background-color: issueBkg;
   padding: 5px;
   z-index: 1;
   position: relative;
@@ -10,7 +12,8 @@
 }
 
 .issueText {
-  padding: 5px;
+  padding: 5px 5px 10px 5px;
+  background-color: issueBkg;
 }
 
 .roundedBottom {
@@ -23,6 +26,8 @@
 
 .dataWrapper {
   composes: roundedBottom;
-  border: 1px #daacd7 solid;
+  border: 1px issueBorder solid;
   border-top: none;
+  z-index: 1;
+  position: relative;
 }

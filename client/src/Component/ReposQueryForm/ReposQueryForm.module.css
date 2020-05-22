@@ -1,5 +1,8 @@
+@value colors: "../../index.css";
+@value inputText, inputBorderLight, inputBorder, submitBtnBkg, submitBtnActive  from colors;
+
 .form {
-  box-shadow: 0 2px 5px #a8dadc, 0 -2px 5px #f1faee;
+  box-shadow: 0 2px 5px inputBorder, 0 -2px 5px inputBorderLight;
   border-radius: 5px;
   position: relative;
   display: inline-block;
@@ -16,7 +19,7 @@
   outline: none;
   font-size: 16px;
   text-indent: 8px;
-  color: #457b9d;
+  color: inputText;
 }
 
 .placeholder {
@@ -40,7 +43,7 @@
   border-radius: 0 5px 5px 0;
   width: 20%;
   height: 100%;
-  background-color: #98c1d9;
+  background: submitBtnBkg;
   font-size: 16px;
   color: white;
   font-weight: 600;
@@ -49,7 +52,7 @@
 
 .submitBtn:hover,
 .submitBtn:focus {
-  background-color: #3d5a80;
+  background: submitBtnActive;
 }
 
 @media only screen and (max-width: 600px) {

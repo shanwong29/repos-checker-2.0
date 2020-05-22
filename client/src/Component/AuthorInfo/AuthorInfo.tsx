@@ -16,8 +16,8 @@ const AuthorBasicInfo: React.FC<IProps> = ({
   return (
     <>
       <img src={avatarUrl} alt={authorName} className={classes.profilePic} />
-      <strong>{authorName} &#8226; </strong>
-      <span>{getFormattedDate(timeStamp)}</span>
+      <strong>{authorName}</strong>
+      <span> &#8226; {getFormattedDate(timeStamp)}</span>
     </>
   );
 };

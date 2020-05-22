@@ -43,13 +43,12 @@ const Issue: React.FC<Iprops> = ({ issue }) => {
           />
 
           <h4>{el.node.title}</h4>
-
-          {activeIssue === issueIndex && (
-            <div className={classes.issueText}>
-              {ReactHtmlParser(issueContent)}
-            </div>
-          )}
         </div>
+        {activeIssue === issueIndex && (
+          <div className={classes.issueText}>
+            {ReactHtmlParser(issueContent)}
+          </div>
+        )}
 
         {activeIssue === issueIndex && <IssueComments comments={comments} />}
       </Fragment>

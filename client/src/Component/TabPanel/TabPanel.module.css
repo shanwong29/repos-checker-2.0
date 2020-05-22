@@ -1,11 +1,14 @@
+@value colors: "../../index.css";
+@value tabText, tabBorder, tabBorderActive from colors;
+
 .tapWrapper {
   margin-top: 1rem;
 }
 
 .normalTap {
-  color: #5e0b15;
+  color: tabText;
   cursor: pointer;
-  border: 1px solid #f2f2f2;
+  border: 1px solid tabBorder;
   background: none;
   border-bottom: none;
   width: calc(100% / 3);
@@ -21,7 +24,7 @@
 .activeTab {
   composes: normalTap;
   font-weight: 700;
-  border: 1px solid #d4d2d2;
+  border: 1px solid tabBorderActive;
   border-bottom: none;
   transform: translateY(-10px);
 }
