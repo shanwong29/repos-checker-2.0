@@ -1,5 +1,9 @@
 @value colors: "../../index.css";
-@value issueBkg, issueBorder from colors;
+@value issueBkg, issueBorder, submitBtnActive, commentBkg from colors;
+
+.roundedBottom {
+  border-radius: 0 0 15px 15px;
+}
 
 .normalIssue {
   cursor: pointer;
@@ -11,17 +15,13 @@
   /*The z-index attribute can only be used on positioned elements (absolute, relative or fixed).*/
 }
 
+.roundedIssue {
+  composes: normalIssue roundedBottom;
+}
+
 .issueText {
   padding: 5px 5px 10px 5px;
   background-color: issueBkg;
-}
-
-.roundedBottom {
-  border-radius: 0 0 15px 15px;
-}
-
-.roundedIssue {
-  composes: normalIssue roundedBottom;
 }
 
 .dataWrapper {
@@ -30,4 +30,22 @@
   border-top: none;
   z-index: 1;
   position: relative;
+}
+
+.showLessBtn {
+  color: submitBtnActive;
+}
+
+.showLessBtn:hover {
+  color: #e63946;
+}
+.showLessBtnWrapper {
+  padding: 5px;
+  background-color: commentBkg;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.roundedShowLessBtnWrapper {
+  composes: showLessBtnWrapper roundedBottom;
 }

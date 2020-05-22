@@ -4,13 +4,14 @@
 @value issueBkg: #f0dfef; /*lightPurple*/
 @value issueBorder: #daacd7; /*purple*/
 @value submitBtnBkg: #ef8354; /*nudeOrange*/
-@value submitBtnActive: #dd6e42; /*rustOrange*/
+@value submitBtnActive: #dd6e42; /*rustOrange    also used in seeLessBtn*/
 @value filterGrowLight: #f1faee; /*whiteBlue*/
 @value filterGrow: #a8dadc; /*lightblue*/
 @value filterText: #457b9d; /*blue*/
 @value tabText: #5e0b15; /*darkBrown*/
 @value tabBorder: #ffdca4; /*lightYellow*/
 @value tabBorderActive: #f4b942; /*yellow*/
+@value commentBkg: #fffbf5; /*superLightYellow*/
 
 * {
   margin: 0;
@@ -21,7 +22,7 @@
 }
 
 body {
-  background: #fdf6e3;
+  /* background: #fdf6e3; */
 }
 
 h1 {
@@ -30,12 +31,24 @@ h1 {
 
 button {
   outline: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 pre {
-  background: #f8f9fa;
+  background: #f3f4f4;
   padding: 10px;
   margin: 5px;
   border: 1px #bcb8b1 solid;
   overflow: auto;
+}
+
+code {
+  color: #1d3557;
+  background: #f3f4f4;
+  padding-left: 3px;
+  padding-right: 3px;
+  border-radius: 5px;
 }

@@ -1,9 +1,9 @@
 @value colors: "../../index.css";
-@value filterGrowLight, filterGrow , filterText from colors;
+@value filterGrowLight, filterGrow , filterText, commentBkg from colors;
 
 .commentsWrapper {
   padding: 5px;
-  background: #fffbf5;
+  background: commentBkg;
 }
 
 .commentText {

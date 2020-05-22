@@ -53,7 +53,25 @@ const Issue: React.FC<Iprops> = ({ issue }) => {
           />
         )}
 
-        {activeIssue === issueIndex && <IssueComments comments={comments} />}
+        {activeIssue === issueIndex && (
+          <>
+            <IssueComments comments={comments} />{" "}
+            <div
+              className={`${
+                issueIndex === issue.edges.length - 1
+                  ? classes.roundedShowLessBtnWrapper
+                  : classes.showLessBtnWrapper
+              }`}
+            >
+              <button
+                className={classes.showLessBtn}
+                onClick={() => setActiveIssue(null)}
+              >
+                &#8854; Show less
+              </button>
+            </div>
+          </>
+        )}
       </Fragment>
     );
   });
