@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getFormattedDate } from "../../service/getFormattedDate";
+import AuthorInfo from "../AuthorInfo/AuthorInfo";
 import classes from "./Comments.module.css";
 import ReactHtmlParser from "react-html-parser";
 
@@ -30,11 +30,15 @@ const Comments: React.FC<IProps> = ({ comments }) => {
   });
 
   filteredComments = filteredComments.map((el: any, key: number) => {
-    let commentAuthor = el.node.author.login;
+    const { avatarUrl, login } = el.node.author;
+
     return (
       <div className={classes.eachCommentWrapper} key={key}>
-        <span>{commentAuthor} &#8226; </span>
-        <span>{getFormattedDate(el.node.createdAt)}</span>
+        <AuthorInfo
+          authorName={login}
+          avatarUrl={avatarUrl}
+          timeStamp={el.node.createdAt}
+        />
 
         <div className={classes.commentText}>
           {ReactHtmlParser(el.node.bodyHTML)}

@@ -31,12 +31,14 @@ app.post("/api/pullRequests", async (req, res, next) => {
             bodyHTML
             author {
               login
+              avatarUrl
             }
             comments(last: 5) {
               edges {
                 node {
                   author {
                     login
+                    avatarUrl
                   }
                   createdAt
                   bodyHTML
@@ -75,12 +77,14 @@ app.post("/api/issues", async (req, res, next) => {
             bodyHTML
             author {
               login
+              avatarUrl
             }
             comments(last: 5) {
               edges {
                 node {
                   author {
                     login
+                    avatarUrl
                   }
                   createdAt
                   bodyHTML

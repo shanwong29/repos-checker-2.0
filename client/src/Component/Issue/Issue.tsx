@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from "react";
 import IssueComments from "../Comments/Comments";
-import { getFormattedDate } from "../../service/getFormattedDate";
+import AuthorInfo from "../AuthorInfo/AuthorInfo";
 import ReactHtmlParser from "react-html-parser";
 
 import classes from "./Issue.module.css";
@@ -13,9 +13,9 @@ const Issue: React.FC<Iprops> = ({ issue }) => {
   const [activeIssue, setActiveIssue] = useState<number | null>(null);
 
   issue = issue.edges.map((el: any, issueIndex: number) => {
-    let comments = el.node.comments.edges;
-    let issueAuthor = el.node.author.login;
-    let issueContent = el.node.bodyHTML;
+    const comments = el.node.comments.edges;
+    const { login, avatarUrl } = el.node.author;
+    const issueContent = el.node.bodyHTML;
 
     let shouldBottomBeRounded = false;
     if (issueIndex === issue.edges.length - 1 && issueIndex !== activeIssue) {
@@ -36,8 +36,11 @@ const Issue: React.FC<Iprops> = ({ issue }) => {
             }
           }}
         >
-          <span>{issueAuthor} &#8226; </span>
-          <span>{getFormattedDate(el.node.createdAt)}</span>
+          <AuthorInfo
+            authorName={login}
+            avatarUrl={avatarUrl}
+            timeStamp={el.node.createdAt}
+          />
 
           <h4>{el.node.title}</h4>
 
