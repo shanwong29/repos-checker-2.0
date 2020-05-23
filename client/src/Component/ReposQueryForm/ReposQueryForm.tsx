@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./ReposQueryForm.module.css";
 
 interface IProps {
-  setReposQuery: (value: string) => void;
+  setReposQuery: (value: { owner: string; name: string }) => void;
 }
 
 const ReposQueryForm: React.FC<IProps> = ({ setReposQuery }) => {
+  const [inputWarning, setInputWarning] = useState("");
+
+  console.log("FORMS");
   const handleSearchQuery = (e: any) => {
     e.preventDefault();
     let queryStr = e.target.queryInput.value;
-    setReposQuery(queryStr);
+
+    const query = queryStr.split("/");
+    const owner = query[0] && query[0].trim();
+    const name = query[1] && query[1].trim();
+
+    if (!owner || !name) {
+      setInputWarning(
+        "Please provide owner and name of the selected repository."
+      );
+      return;
+    }
+    setReposQuery({ owner, name });
+    setInputWarning("");
   };
   return (
     <form onSubmit={(e) => handleSearchQuery(e)}>
@@ -26,6 +41,8 @@ const ReposQueryForm: React.FC<IProps> = ({ setReposQuery }) => {
           Search
         </button>
       </div>
+
+      {inputWarning && <p>{inputWarning}</p>}
     </form>
   );
 };

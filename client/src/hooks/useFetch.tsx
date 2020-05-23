@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import { getData } from "../service/getData";
 
-// interface repository {
-//   name: string;
-//   owner: string;
-//   pullRequests?: any;
-//   issues?: any;
-// }
+interface variables {
+  owner: string;
+  name: string;
+  states?: ["OPEN"] | ["CLOSED"];
+}
+
+interface skipObj {
+  skip: boolean;
+}
 
 const useFetch = (
-  reposQuery: string,
-  currentTab: "pullRequests" | "openIssues" | "closedIssues"
+  path: string,
+  variables: any,
+  dependecies: any,
+  shouldBeSkipped?: skipObj
 ) => {
+  console.log("USEFETCH");
   const [reposData, setReposData] = useState<any | null>(null);
   const [errorFromGithubApi, setErrorFromGithubApi] = useState<string | null>(
     null
@@ -20,51 +26,14 @@ const useFetch = (
   //   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!reposQuery) {
+    if (shouldBeSkipped && shouldBeSkipped.skip) {
       return;
     }
 
-    let owner;
-    let name;
-    const query = reposQuery.split("/");
-    owner = query[0] && query[0].trim();
-    name = query[1] && query[1].trim();
+    fetchData();
+  }, [...dependecies]);
 
-    if (!owner || !name) {
-      setReposData(null);
-      setErrorFromServer(null);
-      setErrorFromGithubApi(
-        "Please provide owner and name of the selected repository."
-      );
-      return;
-    }
-
-    interface variables {
-      owner: string;
-      name: string;
-      states?: ["OPEN"] | ["CLOSED"];
-    }
-    let variables: variables = { name, owner };
-    if (currentTab === "openIssues") {
-      variables = { name, owner, states: ["OPEN"] };
-    } else if (currentTab === "closedIssues") {
-      variables = { name, owner, states: ["CLOSED"] };
-    }
-
-    let path = `/api/pullRequests`;
-    if (currentTab !== "pullRequests") {
-      path = `/api/issues`;
-    }
-    fetchData(path, variables);
-  }, [reposQuery, currentTab]);
-
-  interface variables {
-    owner: string;
-    name: string;
-    states?: ["OPEN"] | ["CLOSED"];
-  }
-
-  const fetchData = async (path: string, variables: variables) => {
+  const fetchData = async () => {
     // setIsLoading(true);
     try {
       const data = await getData(path, variables);

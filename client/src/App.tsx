@@ -7,16 +7,33 @@ import ReposQueryForm from "./Component/ReposQueryForm/ReposQueryForm";
 import useFetch from "./hooks/useFetch";
 
 const App = () => {
+  console.log("APP");
   const [currentTab, setCurrentTab] = useState<
     "pullRequests" | "openIssues" | "closedIssues"
   >("pullRequests");
-  const [reposQuery, setReposQuery] = useState("");
-  const {
-    reposData,
-    errorFromGithubApi,
-    errorFromServer,
-    // isLoading,
-  } = useFetch(reposQuery, currentTab);
+  const [reposQuery, setReposQuery] = useState({ owner: "", name: "" });
+
+  const RequestDict = {
+    pullRequests: { variable: { ...reposQuery }, path: `/api/pullRequests` },
+    openIssues: {
+      variable: { ...reposQuery, states: ["OPEN"] },
+      path: `/api/issues`,
+    },
+
+    closedIssues: {
+      variable: { ...reposQuery, states: ["CLOSED"] },
+      path: `/api/issues`,
+    },
+  };
+
+  const { variable, path } = RequestDict[currentTab];
+
+  const { reposData, errorFromGithubApi, errorFromServer } = useFetch(
+    path,
+    variable,
+    [reposQuery, currentTab],
+    { skip: !reposQuery.name }
+  );
 
   let displayData;
   if (reposData) {
