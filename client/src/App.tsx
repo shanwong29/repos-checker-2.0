@@ -12,6 +12,7 @@ const App = () => {
     "pullRequests" | "openIssues" | "closedIssues"
   >("pullRequests");
   const [reposQuery, setReposQuery] = useState({ owner: "", name: "" });
+  const [reqCursor, setReqCursor] = useState("");
 
   const RequestDict = {
     pullRequests: { variable: { ...reposQuery }, path: `/api/pullRequests` },
@@ -31,14 +32,20 @@ const App = () => {
   const { reposData, errorFromGithubApi, errorFromServer } = useFetch(
     path,
     variable,
-    [reposQuery, currentTab],
+    reposQuery,
+    currentTab,
+    reqCursor,
     { skip: !reposQuery.name }
   );
 
   let displayData;
+  let endCursor: string;
+  let hasNextPage;
   if (reposData) {
     const { issues, pullRequests } = reposData;
     displayData = issues || pullRequests;
+    endCursor = displayData.pageInfo.endCursor;
+    hasNextPage = displayData.pageInfo.hasNextPage;
   }
 
   if (errorFromServer) {
@@ -57,6 +64,15 @@ const App = () => {
             <h1>{reposData.name}</h1>
             <TabPanel currentTab={currentTab} setCurrentTab={setCurrentTab} />
             <Issue issue={displayData} />
+            {hasNextPage && (
+              <button
+                onClick={() => {
+                  setReqCursor(endCursor);
+                }}
+              >
+                Load more...
+              </button>
+            )}
           </Fragment>
         )}
       </div>

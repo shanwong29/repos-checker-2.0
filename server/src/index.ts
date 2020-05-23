@@ -16,15 +16,20 @@ const client = new GraphQLClient(endPoint, {
 
 app.post("/api/pullRequests", async (req, res, next) => {
   const query = ` 
-  query($owner: String!, $name: String!) {
+  query($owner: String!, $name: String!, $cursor:String) {
     repository(owner: $owner, name: $name) {
       id
       name
 			owner {
 			  login
 			}
-      pullRequests(last: 5, orderBy: {field: CREATED_AT, direction: ASC}) {
+      pullRequests(first: 5, after: $cursor, orderBy: {field: CREATED_AT, direction: DESC}) {
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
         edges {
+          cursor
           node {
             title
             createdAt
@@ -33,7 +38,7 @@ app.post("/api/pullRequests", async (req, res, next) => {
               login
               avatarUrl
             }
-            comments(last: 5) {
+            comments(last: 10) {
               edges {
                 node {
                   author {
@@ -62,15 +67,20 @@ app.post("/api/pullRequests", async (req, res, next) => {
 
 app.post("/api/issues", async (req, res, next) => {
   const query = `
-  query($owner: String!, $name: String!, $states:	[IssueState!]) {
+  query($owner: String!, $name: String!, $states:	[IssueState!], $cursor:String) {
     repository(owner: $owner, name: $name) {
       id
       name
 			owner {
 			  login
 			}
-      issues(states:$states, last: 5, orderBy: {field: CREATED_AT, direction: ASC}) {
+      issues(states:$states, first: 5, after: $cursor,orderBy: {field: CREATED_AT, direction: DESC}) {
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
         edges {
+          cursor
           node {
             title
             createdAt
@@ -79,7 +89,7 @@ app.post("/api/issues", async (req, res, next) => {
               login
               avatarUrl
             }
-            comments(last: 5) {
+            comments(last: 10) {
               edges {
                 node {
                   author {
@@ -108,13 +118,3 @@ app.post("/api/issues", async (req, res, next) => {
 app.listen(PORT, () => {
   console.log(`server is running on ${PORT}`);
 });
-
-/*
-@value inputText: #457b9d;
-@value inputBorderLight: #f1faee;
-@value inputBorder: #a8dadc;
-@value issueBkg: #f0dfef;
-@value issueBorder: #daacd7;
-@value btn: #98c1d9;
-@value btnActive: #3d5a80;
-*/

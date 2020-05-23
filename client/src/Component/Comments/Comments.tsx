@@ -10,22 +10,11 @@ interface IProps {
 }
 
 const Comments: React.FC<IProps> = ({ comments }) => {
+  console.log("Comments");
   const [commentQuery, setCommentQuery] = useState("");
 
   let filteredComments = comments.filter((el: any) => {
     return el.node.bodyHTML.includes(commentQuery);
-  });
-
-  filteredComments.sort((a: any, b: any) => {
-    let dateA = new Date(a.node.createdAt);
-    let dateB = new Date(b.node.createdAt);
-    if (dateA < dateB) {
-      return -1;
-    }
-    if (dateA > dateB) {
-      return 1;
-    }
-    return 0;
   });
 
   filteredComments = filteredComments.map((el: any, key: number) => {
