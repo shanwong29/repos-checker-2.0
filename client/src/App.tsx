@@ -1,9 +1,8 @@
 import React, { useState, Fragment } from "react";
 import classes from "./App.module.css";
-
 import Issue from "./Component/Issue/Issue";
 import TabPanel from "./Component/TabPanel/TabPanel";
-import ReposQueryForm from "./Component/ReposQueryForm/ReposQueryForm";
+import Navbar from "./Component/Navbar/Navbar";
 import useFetch from "./hooks/useFetch";
 
 const App = () => {
@@ -53,9 +52,9 @@ const App = () => {
   }
 
   return (
-    <div className={classes.App}>
-      <h1 className={classes.appTitle}>Repos Checker</h1>
-      <ReposQueryForm setReposQuery={setReposQuery} />
+    <>
+      <Navbar setReposQuery={setReposQuery} />
+
       <div className={classes.reposInfo}>
         {/* {isLoading && <p>loading...</p>} */}
         {errorFromGithubApi && <p>{errorFromGithubApi}</p>}
@@ -76,7 +75,7 @@ const App = () => {
           </Fragment>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

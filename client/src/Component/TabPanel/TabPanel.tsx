@@ -7,6 +7,7 @@ interface IProps {
 }
 
 const TabPanel: React.FC<IProps> = ({ currentTab, setCurrentTab }) => {
+  console.log("PANEL");
   const tabs = [
     { label: "Pull Requests", representedState: "pullRequests" },
     { label: "Open Issues", representedState: "openIssues" },

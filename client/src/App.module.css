@@ -1,22 +1,14 @@
-.App {
+.reposInfo {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
   display: grid;
   grid-template-columns: 80vw;
   justify-content: center;
 }
 
-.appTitle {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  justify-self: center;
-}
-
-.reposInfo {
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-}
-
 @media only screen and (max-width: 600px) {
-  .App {
+  .reposInfo {
     grid-template-columns: 95vw;
+    margin-top: 1rem;
   }
 }

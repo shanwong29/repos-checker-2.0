@@ -1,0 +1,110 @@
+@value colors: "../../index.css";
+@value brownOrange, mainDarkBlue  from colors;
+@value lightOrange: #ef8354;
+/*below only used in the input and grow*/
+@value brickOrange: #D85113;
+@value lightMelon: #ffdab9;
+@value melon: #fbc4ab;
+
+.nav {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  padding: 0 10px;
+  height: 35px;
+  justify-content: space-between;
+}
+
+.logo {
+  color: mainDarkBlue;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.link {
+  color: mainDarkBlue;
+  padding: 0 20px;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: lightOrange;
+}
+
+.form {
+  box-shadow: 0 2px 5px melon, 0 -2px 5px lightMelon;
+  border-radius: 5px;
+  position: relative;
+  width: 500px;
+  height: 35px;
+}
+
+.input {
+  border-radius: 5px 0 0 5px;
+  width: 80%;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  text-indent: 8px;
+  color: brickOrange;
+}
+
+.submitBtn {
+  border-radius: 0 5px 5px 0;
+  width: 20%;
+  height: 100%;
+  background: lightOrange;
+  color: white;
+  font-weight: 600;
+}
+
+.submitBtn:hover,
+.submitBtn:focus {
+  background: brownOrange;
+  outline: none;
+}
+
+.placeholder {
+  position: absolute; /*relative to form*/
+  pointer-events: none;
+  transform: translate(-5%, -50%);
+  top: 50%;
+  left: 4%;
+  color: grey;
+  font-size: 14px;
+  transition: 0.2s ease all;
+}
+
+.input:focus + .placeholder,
+.input:not(:placeholder-shown) + .placeholder {
+  opacity: 1;
+  transform: scale(0.75) translateY(-165%) translateX(-30px);
+}
+
+.inputWarning {
+  margin-top: 5px;
+  color: brickOrange;
+}
+
+@media only screen and (max-width: 900px) {
+  .form {
+    width: 320px;
+  }
+}
+
+@media only screen and (max-width: 660px) {
+  .form {
+    width: 94%;
+    left: 3%;
+  }
+}
+
+@media only screen and (min-width: 660px) {
+  .formWrapper {
+    position: absolute; /*relative to body*/
+    left: 50%;
+    top: 10px; /*same as margin of .nav*/
+    transform: translateX(-50%);
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import AuthorInfo from "../AuthorInfo/AuthorInfo";
 import classes from "./Comments.module.css";
 
@@ -7,17 +7,13 @@ the React TypeScripts types allow us to handle children and defaultProps correct
 
 interface IProps {
   comments: any;
+  showComments: boolean;
 }
 
-const Comments: React.FC<IProps> = ({ comments }) => {
+const Comments: React.FC<IProps> = ({ comments, showComments }) => {
   console.log("Comments");
-  const [commentQuery, setCommentQuery] = useState("");
 
-  let filteredComments = comments.filter((el: any) => {
-    return el.node.bodyHTML.includes(commentQuery);
-  });
-
-  filteredComments = filteredComments.map((el: any, key: number) => {
+  comments = comments.map((el: any, key: number) => {
     const { avatarUrl, login } = el.node.author;
 
     return (
@@ -38,22 +34,13 @@ const Comments: React.FC<IProps> = ({ comments }) => {
 
   return (
     <div className={classes.commentsWrapper}>
-      {comments.length ? (
+      {showComments ? (
         <>
-          <h4>Comments:</h4>
-          <label htmlFor="commentQuery">Filter comments by keyword(s): </label>
-          <input
-            className={classes.filter}
-            name="commentQuery"
-            type="text"
-            placeholder="type keyword(s) here..."
-            value={commentQuery}
-            onChange={(event) => setCommentQuery(event.target.value)}
-          />
-          {filteredComments}
+          <h3>Comments ({comments.length})</h3>
+          {comments}
         </>
       ) : (
-        <p>No comments for this issue</p>
+        <></>
       )}
     </div>
   );

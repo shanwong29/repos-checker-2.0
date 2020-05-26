@@ -1,27 +1,32 @@
 @value colors: "../../index.css";
-@value tabText, tabBorder, tabBorderActive from colors;
+@value borderColor, mainBkg from colors;
 
 .tapWrapper {
-  margin-top: 1rem;
+  margin: 1rem 0;
+  border-bottom: 3px solid #96cbef;
 }
 
 .normalTap {
-  color: tabText;
-  border: 1px solid tabBorder;
+  color: rgb(145, 144, 144);
+  border: 1px solid borderColor;
   border-bottom: none;
-  width: calc(100% / 3);
-  padding: 5px 0 15px;
-  position: relative;
-  top: 10px;
-  font-weight: 200;
-  transition: 0.2s ease all;
-  border-radius: 15px 15px 0 0;
+  width: calc(50% / 3);
+  padding: 10px 0;
+  margin-right: 5px;
+  border-radius: 5px 5px 0 0;
 }
 
 .activeTab {
   composes: normalTap;
   font-weight: 700;
-  border: 1px solid tabBorderActive;
+  background: #96cbef;
+  color: mainBkg;
+  border: 1px solid #96cbef;
   border-bottom: none;
-  transform: translateY(-10px);
+}
+
+@media only screen and (max-width: 640px) {
+  .normalTap {
+    width: calc((100% / 3) - 5px);
+  }
 }

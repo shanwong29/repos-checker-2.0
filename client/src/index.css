@@ -1,17 +1,9 @@
-@value inputText: #D85113; /* orange */
-@value inputBorderLight: #ffdab9; /*lightMelon*/
-@value inputBorder: #fbc4ab; /*melon*/
-@value issueBkg: #f0dfef; /*lightPurple*/
-@value issueBorder: #daacd7; /*purple*/
-@value submitBtnBkg: #ef8354; /*nudeOrange*/
-@value submitBtnActive: #dd6e42; /*rustOrange    also used in seeLessBtn*/
-@value filterGrowLight: #f1faee; /*whiteBlue*/
-@value filterGrow: #a8dadc; /*lightblue*/
-@value filterText: #457b9d; /*blue*/
-@value tabText: #5e0b15; /*darkBrown*/
-@value tabBorder: #ffdca4; /*lightYellow*/
-@value tabBorderActive: #f4b942; /*yellow*/
-@value commentBkg: #fffbf5; /*superLightYellow*/
+@value mainBkg: #f9f9f9; /*super light blue-white*/
+@value codeBkg: #f3f4f4; /*light blue-white*/
+@value borderColor: #E1E1E1; /*lightGrey*/
+@value brownOrange: #dd6e42; /*used in toggleBtn(@issue) and submitBtn(@Navbar)*/
+@value mainDarkBlue: #4f6d7a;
+@value superDarkBlue: #1d3557;
 
 * {
   margin: 0;
@@ -22,15 +14,14 @@
 }
 
 body {
-  /* background: #fdf6e3; */
+  background: mainBkg;
 }
 
 h1 {
-  color: #4f6d7a;
+  color: mainDarkBlue;
 }
 
 button {
-  outline: none;
   border: none;
   background: none;
   cursor: pointer;
@@ -38,16 +29,17 @@ button {
 }
 
 pre {
-  background: #f3f4f4;
+  background: codeBkg;
   padding: 10px;
   margin: 5px;
   border: 1px #bcb8b1 solid;
   overflow: auto;
+  color: superDarkBlue;
 }
 
 code {
-  color: #1d3557;
-  background: #f3f4f4;
+  color: superDarkBlue;
+  background: codeBkg;
   padding-left: 3px;
   padding-right: 3px;
   border-radius: 5px;

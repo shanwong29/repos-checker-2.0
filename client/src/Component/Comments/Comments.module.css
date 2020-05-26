@@ -1,27 +1,18 @@
 @value colors: "../../index.css";
-@value filterGrowLight, filterGrow , filterText, commentBkg from colors;
+@value borderColor from colors;
 
 .commentsWrapper {
   padding: 5px;
-  background: commentBkg;
+  background: white;
 }
 
 .commentText {
-  color: #495057;
+  color: #495057; /*dark-grey only used here*/
+  padding-left: 50px;
 }
 
 .eachCommentWrapper {
-  border-bottom: solid #e9e8e8 1px;
-  padding: 5px;
-}
-
-.filter {
-  border-radius: 10px;
-  border: 1px solid #f2f2f2;
-  outline: none;
-  height: 30px;
-  box-shadow: 0 2px 3px filterGrow, 0 -2px 3px filterGrowLight;
-  color: filterText;
-  margin: auto auto 5px 10px;
-  text-indent: 10px;
+  border-top: solid borderColor 1px;
+  padding: 5px 0;
+  margin-top: 15px;
 }

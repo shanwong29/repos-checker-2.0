@@ -1,51 +1,28 @@
 @value colors: "../../index.css";
-@value issueBkg, issueBorder, submitBtnActive, commentBkg from colors;
+@value borderColor, brownOrange from colors;
 
-.roundedBottom {
-  border-radius: 0 0 15px 15px;
+.issueWrapper {
+  background-color: white;
+  border: 1px borderColor solid;
+  margin: 5px 0;
+  padding: 5px 15px;
 }
 
-.normalIssue {
-  cursor: pointer;
-  border-top: 1px issueBorder solid;
-  background-color: issueBkg;
-  padding: 5px;
-  z-index: 1;
-  position: relative;
-  /*The z-index attribute can only be used on positioned elements (absolute, relative or fixed).*/
-}
-
-.roundedIssue {
-  composes: normalIssue roundedBottom;
+.issueDetailsWrapper {
+  padding-left: 50px; /*size of img and its margin*/
+  display: flex;
+  flex-direction: column;
 }
 
 .issueText {
-  padding: 5px 5px 10px 5px;
-  background-color: issueBkg;
+  padding: 10px 0;
 }
 
-.dataWrapper {
-  composes: roundedBottom;
-  border: 1px issueBorder solid;
-  border-top: none;
-  z-index: 1;
-  position: relative;
+.toggleBtn {
+  color: brownOrange;
+  align-self: flex-end;
 }
 
-.showLessBtn {
-  color: submitBtnActive;
-}
-
-.showLessBtn:hover {
+.toggleBtn:hover {
   color: #e63946;
-}
-.showLessBtnWrapper {
-  padding: 5px;
-  background-color: commentBkg;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.roundedShowLessBtnWrapper {
-  composes: showLessBtnWrapper roundedBottom;
 }
