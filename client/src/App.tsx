@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import classes from "./App.module.css";
 import Issue from "./Component/Issue/Issue";
 import TabPanel from "./Component/TabPanel/TabPanel";
@@ -11,31 +11,43 @@ const App = () => {
     "pullRequests" | "openIssues" | "closedIssues"
   >("pullRequests");
   const [reposQuery, setReposQuery] = useState({ owner: "", name: "" });
-  const [reqCursor, setReqCursor] = useState("");
+  const [reqCursor, setReqCursor] = useState<null | string>(null);
 
   const RequestDict = {
-    pullRequests: { variable: { ...reposQuery }, path: `/api/pullRequests` },
+    pullRequests: {
+      variable: { ...reposQuery, cursor: reqCursor },
+      path: `/api/pullRequests`,
+    },
     openIssues: {
-      variable: { ...reposQuery, states: ["OPEN"] },
+      variable: { ...reposQuery, cursor: reqCursor, states: ["OPEN"] },
       path: `/api/issues`,
     },
 
     closedIssues: {
-      variable: { ...reposQuery, states: ["CLOSED"] },
+      variable: { ...reposQuery, cursor: reqCursor, states: ["CLOSED"] },
       path: `/api/issues`,
     },
   };
 
   const { variable, path } = RequestDict[currentTab];
 
-  const { reposData, errorFromGithubApi, errorFromServer } = useFetch(
-    path,
-    variable,
-    reposQuery,
-    currentTab,
-    reqCursor,
-    { skip: !reposQuery.name }
-  );
+  const {
+    reposData,
+    errorFromGithubApi,
+    errorFromServer,
+    fetchData,
+  } = useFetch(path, variable, {
+    skip: !reposQuery.name /*avoid fetching during initial render*/,
+  });
+
+  useEffect(() => {
+    fetchData();
+  }, [reposQuery, currentTab]);
+
+  useEffect(() => {
+    console.log(reqCursor);
+    fetchData();
+  }, [reqCursor]);
 
   let displayData;
   let endCursor: string;
@@ -45,6 +57,7 @@ const App = () => {
     displayData = issues || pullRequests;
     endCursor = displayData.pageInfo.endCursor;
     hasNextPage = displayData.pageInfo.hasNextPage;
+    console.log(displayData, displayData.pageInfo.endCursor);
   }
 
   if (errorFromServer) {
@@ -66,6 +79,7 @@ const App = () => {
             {hasNextPage && (
               <button
                 onClick={() => {
+                  console.log("button", endCursor);
                   setReqCursor(endCursor);
                 }}
               >
