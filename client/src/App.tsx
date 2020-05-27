@@ -32,10 +32,11 @@ const App = () => {
   const { variable, path } = RequestDict[currentTab];
 
   const {
-    reposData,
+    data,
     errorFromGithubApi,
     errorFromServer,
     fetchData,
+    fetchMore,
   } = useFetch(path, variable, {
     skip: !reposQuery.name /*avoid fetching during initial render*/,
   });
@@ -43,17 +44,17 @@ const App = () => {
   useEffect(() => {
     fetchData();
   }, [reposQuery, currentTab]);
-
+  let displayData: any;
   useEffect(() => {
     console.log(reqCursor);
-    fetchData();
+    console.log("testuse", displayData);
+    fetchMore({ previousData: displayData });
   }, [reqCursor]);
 
-  let displayData;
   let endCursor: string;
   let hasNextPage;
-  if (reposData) {
-    const { issues, pullRequests } = reposData;
+  if (data) {
+    const { issues, pullRequests } = data.repository;
     displayData = issues || pullRequests;
     endCursor = displayData.pageInfo.endCursor;
     hasNextPage = displayData.pageInfo.hasNextPage;
@@ -71,9 +72,9 @@ const App = () => {
       <div className={classes.reposInfo}>
         {/* {isLoading && <p>loading...</p>} */}
         {errorFromGithubApi && <p>{errorFromGithubApi}</p>}
-        {reposData && (
+        {data && (
           <Fragment>
-            <h1>{reposData.name}</h1>
+            <h1>{data.repository.name}</h1>
             <TabPanel currentTab={currentTab} setCurrentTab={setCurrentTab} />
             <Issue issue={displayData} />
             {hasNextPage && (

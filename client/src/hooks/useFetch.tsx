@@ -15,7 +15,7 @@ interface skipObj {
 const useFetch = (path: string, variables: any, shouldBeSkipped?: skipObj) => {
   console.log("USEFETCH");
 
-  const [reposData, setReposData] = useState<any | null>(null);
+  const [data, setData] = useState<any | null>(null);
   const [errorFromGithubApi, setErrorFromGithubApi] = useState<string | null>(
     null
   );
@@ -33,53 +33,103 @@ const useFetch = (path: string, variables: any, shouldBeSkipped?: skipObj) => {
     console.log("FETCHING DATA 1 ");
 
     const { cursor } = variables;
-    let existingData = reposData;
+    let existingData = data;
 
     try {
       // const data = await getData(path, variables);
       const { data } = await axios.post(`${path}`, variables);
-
-      if (!data.repository) {
+      console.log("result", data);
+      if (data.response) {
         //when no data is found
         setErrorFromGithubApi(data.response.errors[0].message);
-        setReposData(null);
+        setData(null);
         setErrorFromServer(null);
         // setIsLoading(false);
         return;
       }
       //when data is successfully fetched
-      if (cursor) {
-        //when request is loading more data...
+      // if (cursor) {
+      //   //when request is loading more data...
 
-        let query = "issues";
-        if (path === "/api/pullRequests") {
-          query = "pullRequests";
-        }
+      //   let query = "issues";
+      //   if (path === "/api/pullRequests") {
+      //     query = "pullRequests";
+      //   }
 
-        let existIssues = existingData[query].edges;
-        let newIssues = data.repository[query].edges;
+      //   let existIssues = existingData.repository[query].edges;
+      //   let newIssues = data.repository[query].edges;
 
-        data.repository[query].edges = [...existIssues, ...newIssues];
+      //   data.repository[query].edges = [...existIssues, ...newIssues];
 
-        setReposData({ ...data.repository });
-        setErrorFromGithubApi(null);
-        setErrorFromServer(null);
-        return;
-        //   setIsLoading(false);
-      }
-      setReposData(data.repository);
+      //   setData(data);
+      //   setErrorFromGithubApi(null);
+      //   setErrorFromServer(null);
+      //   return;
+      //   //   setIsLoading(false);
+      // }
+      setData(data);
       setErrorFromGithubApi(null);
       setErrorFromServer(null);
       //   setIsLoading(false);
     } catch (err) {
       //error from server
       setErrorFromServer(err);
-      setReposData(null);
+      setData(null);
       //   setIsLoading(false);
     }
   };
 
-  return { reposData, errorFromGithubApi, errorFromServer, fetchData };
+  interface objReq {
+    previousData: any;
+  }
+
+  const fetchMore = async (objReq: objReq) => {
+    // setIsLoading(true);
+    if (shouldBeSkipped && shouldBeSkipped.skip) {
+      return;
+    }
+
+    console.log("useFetchmore ", objReq.previousData);
+
+    console.log("FETCHING more ");
+
+    const { cursor } = variables;
+    let existingData = data;
+
+    try {
+      const { data } = await axios.post(`${path}`, variables);
+      console.log("result", data);
+      if (data.response) {
+        //   //when no data is found
+        setErrorFromGithubApi(data.response.errors[0].message);
+        //   // setIsLoading(false);
+        return;
+      }
+      //when more data is successfully fetched
+      let query = "issues";
+      if (path === "/api/pullRequests") {
+        query = "pullRequests";
+      }
+
+      let existIssues = existingData.repository[query].edges;
+      let newIssues = data.repository[query].edges;
+
+      data.repository[query].edges = [...existIssues, ...newIssues];
+
+      setData(data);
+      setErrorFromGithubApi(null);
+      setErrorFromServer(null);
+      //   setIsLoading(false);
+      return;
+    } catch (err) {
+      //error from server
+      setErrorFromServer(err);
+      // setData(null);
+      //   setIsLoading(false);
+    }
+  };
+
+  return { data, errorFromGithubApi, errorFromServer, fetchData, fetchMore };
 };
 
 export default useFetch;

@@ -18,12 +18,12 @@ app.post("/api/pullRequests", async (req, res, next) => {
   const query = ` 
   query($owner: String!, $name: String!, $cursor:String) {
     repository(owner: $owner, name: $name) {
-      id
       name
 			owner {
 			  login
 			}
       pullRequests(first: 5, after: $cursor, orderBy: {field: CREATED_AT, direction: DESC}) {
+        totalCount
         pageInfo {
           endCursor
           hasNextPage
@@ -31,6 +31,7 @@ app.post("/api/pullRequests", async (req, res, next) => {
         edges {
           cursor
           node {
+            id
             title
             createdAt
             bodyHTML
@@ -38,17 +39,8 @@ app.post("/api/pullRequests", async (req, res, next) => {
               login
               avatarUrl
             }
-            comments(last: 10) {
-              edges {
-                node {
-                  author {
-                    login
-                    avatarUrl
-                  }
-                  createdAt
-                  bodyHTML
-                }
-              }
+            comments {
+              totalCount
             }
           }
         }
@@ -69,12 +61,12 @@ app.post("/api/issues", async (req, res, next) => {
   const query = `
   query($owner: String!, $name: String!, $states:	[IssueState!], $cursor:String) {
     repository(owner: $owner, name: $name) {
-      id
       name
 			owner {
 			  login
 			}
       issues(states:$states, first: 5, after: $cursor,orderBy: {field: CREATED_AT, direction: DESC}) {
+        totalCount
         pageInfo {
           endCursor
           hasNextPage
@@ -82,6 +74,7 @@ app.post("/api/issues", async (req, res, next) => {
         edges {
           cursor
           node {
+            id
             title
             createdAt
             bodyHTML
@@ -89,17 +82,61 @@ app.post("/api/issues", async (req, res, next) => {
               login
               avatarUrl
             }
-            comments(last: 10) {
-              edges {
-                node {
-                  author {
-                    login
-                    avatarUrl
-                  }
-                  createdAt
-                  bodyHTML
-                }
+            comments {
+              totalCount
+            }
+          }
+        }
+      }
+    }
+  }`;
+
+  try {
+    const data = await client.request(query, req.body);
+    res.json(data);
+  } catch (err) {
+    res.json(err);
+  }
+});
+
+app.post("/api/comments", async (req, res, next) => {
+  const query = `
+  query ($ID: ID!, $cursor:String) {
+    node(id: $ID) {
+      ... on PullRequest {
+        comments(first: 10, after:$cursor) {
+          totalCount
+          pageInfo {
+            endCursor
+            hasNextPage
+          }
+          edges {
+            node {
+              author {
+                login
+                avatarUrl
               }
+              createdAt
+              bodyHTML
+            }
+          }
+        }
+      }
+      ... on Issue {
+        comments(first: 10, after:$cursor) {
+          totalCount
+          pageInfo {
+            endCursor
+            hasNextPage
+          }
+          edges {
+            node {
+              author {
+                login
+                avatarUrl
+              }
+              createdAt
+              bodyHTML
             }
           }
         }
@@ -118,3 +155,7 @@ app.post("/api/issues", async (req, res, next) => {
 app.listen(PORT, () => {
   console.log(`server is running on ${PORT}`);
 });
+
+/*
+
+*/
