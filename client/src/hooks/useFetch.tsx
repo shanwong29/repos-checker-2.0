@@ -20,6 +20,7 @@ const useFetch = (path: string, variables: any, shouldBeSkipped?: skipObj) => {
     null
   );
   const [errorFromServer, setErrorFromServer] = useState<string | null>(null);
+  const [fetchMoreResult, setFetchMoreResult] = useState<any | null>(null);
   //   const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = async () => {
@@ -32,44 +33,23 @@ const useFetch = (path: string, variables: any, shouldBeSkipped?: skipObj) => {
 
     console.log("FETCHING DATA 1 ");
 
-    const { cursor } = variables;
-    let existingData = data;
-
     try {
-      // const data = await getData(path, variables);
       const { data } = await axios.post(`${path}`, variables);
-      console.log("result", data);
+
       if (data.response) {
         //when no data is found
         setErrorFromGithubApi(data.response.errors[0].message);
         setData(null);
         setErrorFromServer(null);
+        setFetchMoreResult(null);
         // setIsLoading(false);
         return;
       }
-      //when data is successfully fetched
-      // if (cursor) {
-      //   //when request is loading more data...
 
-      //   let query = "issues";
-      //   if (path === "/api/pullRequests") {
-      //     query = "pullRequests";
-      //   }
-
-      //   let existIssues = existingData.repository[query].edges;
-      //   let newIssues = data.repository[query].edges;
-
-      //   data.repository[query].edges = [...existIssues, ...newIssues];
-
-      //   setData(data);
-      //   setErrorFromGithubApi(null);
-      //   setErrorFromServer(null);
-      //   return;
-      //   //   setIsLoading(false);
-      // }
       setData(data);
       setErrorFromGithubApi(null);
       setErrorFromServer(null);
+      setFetchMoreResult(null);
       //   setIsLoading(false);
     } catch (err) {
       //error from server
@@ -81,6 +61,7 @@ const useFetch = (path: string, variables: any, shouldBeSkipped?: skipObj) => {
 
   interface objReq {
     previousData: any;
+    cursor: any;
   }
 
   const fetchMore = async (objReq: objReq) => {
@@ -91,36 +72,22 @@ const useFetch = (path: string, variables: any, shouldBeSkipped?: skipObj) => {
 
     console.log("useFetchmore ", objReq.previousData);
 
-    console.log("FETCHING more ");
-
-    const { cursor } = variables;
-    let existingData = data;
+    const { cursor } = objReq;
 
     try {
-      const { data } = await axios.post(`${path}`, variables);
-      console.log("result", data);
+      const { data } = await axios.post(`${path}`, {
+        ...variables,
+        cursor: cursor,
+      });
+
       if (data.response) {
-        //   //when no data is found
+        //when no data is found
         setErrorFromGithubApi(data.response.errors[0].message);
-        //   // setIsLoading(false);
+        // setIsLoading(false);
         return;
       }
-      //when more data is successfully fetched
-      let query = "issues";
-      if (path === "/api/pullRequests") {
-        query = "pullRequests";
-      }
-
-      let existIssues = existingData.repository[query].edges;
-      let newIssues = data.repository[query].edges;
-
-      data.repository[query].edges = [...existIssues, ...newIssues];
-
-      setData(data);
-      setErrorFromGithubApi(null);
-      setErrorFromServer(null);
-      //   setIsLoading(false);
-      return;
+      //when more data successfully retrived
+      setFetchMoreResult({ previousData: objReq.previousData, newData: data });
     } catch (err) {
       //error from server
       setErrorFromServer(err);
@@ -129,7 +96,14 @@ const useFetch = (path: string, variables: any, shouldBeSkipped?: skipObj) => {
     }
   };
 
-  return { data, errorFromGithubApi, errorFromServer, fetchData, fetchMore };
+  return {
+    data,
+    errorFromGithubApi,
+    errorFromServer,
+    fetchData,
+    fetchMore,
+    fetchMoreResult,
+  };
 };
 
 export default useFetch;

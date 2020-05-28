@@ -14,31 +14,50 @@ interface IProps {
 const Comments: React.FC<IProps> = ({ ID }) => {
   console.log("Comments,", ID);
 
-  let cursor = null;
-
-  const { data, errorFromGithubApi, errorFromServer, fetchData } = useFetch(
+  const {
+    data,
+    errorFromGithubApi,
+    errorFromServer,
+    fetchData,
+    fetchMore,
+    fetchMoreResult,
+  } = useFetch(
     "/api/comments",
-    { ID, cursor },
+    { ID },
     {
       skip: !ID /*avoid fetching during initial render*/,
     }
   );
 
   useEffect(() => {
-    console.log("here");
     fetchData();
   }, []);
 
-  let comments;
-
+  let displayComments: any;
+  let hasNextPage: any;
+  let endCursor: any;
+  let totalCount: any;
   if (data) {
-    comments = data.node.comments.edges;
+    displayComments = data.node.comments;
   }
-  console.log(data, errorFromGithubApi, errorFromServer);
 
-  comments =
-    comments &&
-    comments.map((el: any, key: number) => {
+  if (fetchMoreResult) {
+    let oldEdges = fetchMoreResult.previousData;
+    displayComments = fetchMoreResult.newData.node.comments;
+    displayComments.edges = [...oldEdges, ...displayComments.edges];
+  }
+
+  if (displayComments) {
+    const { pageInfo } = displayComments;
+
+    hasNextPage = pageInfo.hasNextPage;
+    endCursor = pageInfo.endCursor;
+    totalCount = displayComments.totalCount;
+  }
+
+  const displayElements =
+    displayComments &&
+    displayComments.edges.map((el: any, key: number) => {
       const { avatarUrl, login } = el.node.author;
 
       return (
@@ -57,10 +76,22 @@ const Comments: React.FC<IProps> = ({ ID }) => {
       );
     });
 
-  return comments ? (
+  return displayElements ? (
     <div className={classes.commentsWrapper}>
-      <h3>Comments ({comments.length})</h3>
-      {comments}
+      <h3>Comments ({totalCount})</h3>
+      {displayElements}
+      {hasNextPage && (
+        <button
+          onClick={() => {
+            fetchMore({
+              previousData: displayComments.edges,
+              cursor: endCursor,
+            });
+          }}
+        >
+          View more comments... ({displayComments.edges.length} / {totalCount})
+        </button>
+      )}
     </div>
   ) : (
     <></>

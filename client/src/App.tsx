@@ -11,20 +11,19 @@ const App = () => {
     "pullRequests" | "openIssues" | "closedIssues"
   >("pullRequests");
   const [reposQuery, setReposQuery] = useState({ owner: "", name: "" });
-  const [reqCursor, setReqCursor] = useState<null | string>(null);
 
   const RequestDict = {
     pullRequests: {
-      variable: { ...reposQuery, cursor: reqCursor },
+      variable: { ...reposQuery },
       path: `/api/pullRequests`,
     },
     openIssues: {
-      variable: { ...reposQuery, cursor: reqCursor, states: ["OPEN"] },
+      variable: { ...reposQuery, states: ["OPEN"] },
       path: `/api/issues`,
     },
 
     closedIssues: {
-      variable: { ...reposQuery, cursor: reqCursor, states: ["CLOSED"] },
+      variable: { ...reposQuery, states: ["CLOSED"] },
       path: `/api/issues`,
     },
   };
@@ -37,6 +36,7 @@ const App = () => {
     errorFromServer,
     fetchData,
     fetchMore,
+    fetchMoreResult,
   } = useFetch(path, variable, {
     skip: !reposQuery.name /*avoid fetching during initial render*/,
   });
@@ -44,22 +44,31 @@ const App = () => {
   useEffect(() => {
     fetchData();
   }, [reposQuery, currentTab]);
-  let displayData: any;
-  useEffect(() => {
-    console.log(reqCursor);
-    console.log("testuse", displayData);
-    fetchMore({ previousData: displayData });
-  }, [reqCursor]);
 
+  let displayData: any;
   let endCursor: string;
   let hasNextPage;
+  let lengthOfEdgesShown;
+
   if (data) {
     const { issues, pullRequests } = data.repository;
     displayData = issues || pullRequests;
+  }
+
+  if (fetchMoreResult) {
+    const { issues, pullRequests } = fetchMoreResult.newData.repository;
+    const previousEdges = fetchMoreResult.previousData.edges;
+    displayData = issues || pullRequests;
+    displayData.edges = [...previousEdges, ...displayData.edges];
+  }
+
+  if (displayData) {
     endCursor = displayData.pageInfo.endCursor;
     hasNextPage = displayData.pageInfo.hasNextPage;
-    console.log(displayData, displayData.pageInfo.endCursor);
+    lengthOfEdgesShown = displayData.edges.length;
   }
+
+  // console.log(displayData, displayData.pageInfo.endCursor);
 
   if (errorFromServer) {
     return <h1>Something goes wrong!</h1>;
@@ -81,10 +90,10 @@ const App = () => {
               <button
                 onClick={() => {
                   console.log("button", endCursor);
-                  setReqCursor(endCursor);
+                  fetchMore({ previousData: displayData, cursor: endCursor });
                 }}
               >
-                Load more...
+                Load more... ({lengthOfEdgesShown}/{displayData.totalCount})
               </button>
             )}
           </Fragment>
