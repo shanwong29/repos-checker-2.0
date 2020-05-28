@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import AuthorInfo from "../AuthorInfo/AuthorInfo";
 import classes from "./Comments.module.css";
 import useFetch from "../../hooks/useFetch";
+import { commentsQuery } from "../../graphqlQuery/query";
 
 /*By typing our component as an FC, 
 the React TypeScripts types allow us to handle children and defaultProps correctly.  */
@@ -21,13 +22,11 @@ const Comments: React.FC<IProps> = ({ ID }) => {
     fetchData,
     fetchMore,
     fetchMoreResult,
-  } = useFetch(
-    "/api/comments",
-    { ID },
-    {
-      skip: !ID /*avoid fetching during initial render*/,
-    }
-  );
+  } = useFetch({
+    query: commentsQuery,
+    variables: { ID },
+    skip: !ID /*avoid fetching during initial render*/,
+  });
 
   useEffect(() => {
     fetchData();
@@ -42,7 +41,7 @@ const Comments: React.FC<IProps> = ({ ID }) => {
   }
 
   if (fetchMoreResult) {
-    let oldEdges = fetchMoreResult.previousData;
+    const oldEdges = fetchMoreResult.previousData;
     displayComments = fetchMoreResult.newData.node.comments;
     displayComments.edges = [...oldEdges, ...displayComments.edges];
   }

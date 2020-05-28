@@ -8,11 +8,14 @@ interface variables {
   states?: ["OPEN"] | ["CLOSED"];
 }
 
-interface skipObj {
+interface RequestObj {
+  query: string;
+  variables: any;
   skip: boolean;
 }
 
-const useFetch = (path: string, variables: any, shouldBeSkipped?: skipObj) => {
+const useFetch = (requestObj: RequestObj) => {
+  const { query, variables, skip } = requestObj;
   console.log("USEFETCH");
 
   const [data, setData] = useState<any | null>(null);
@@ -25,16 +28,17 @@ const useFetch = (path: string, variables: any, shouldBeSkipped?: skipObj) => {
 
   const fetchData = async () => {
     // setIsLoading(true);
-    console.log("before skip");
-
-    if (shouldBeSkipped && shouldBeSkipped.skip) {
+    if (skip) {
       return;
     }
 
     console.log("FETCHING DATA 1 ");
 
     try {
-      const { data } = await axios.post(`${path}`, variables);
+      const { data } = await axios.post(`/api`, {
+        query,
+        variables,
+      });
 
       if (data.response) {
         //when no data is found
@@ -66,7 +70,7 @@ const useFetch = (path: string, variables: any, shouldBeSkipped?: skipObj) => {
 
   const fetchMore = async (objReq: objReq) => {
     // setIsLoading(true);
-    if (shouldBeSkipped && shouldBeSkipped.skip) {
+    if (skip) {
       return;
     }
 
@@ -75,9 +79,9 @@ const useFetch = (path: string, variables: any, shouldBeSkipped?: skipObj) => {
     const { cursor } = objReq;
 
     try {
-      const { data } = await axios.post(`${path}`, {
-        ...variables,
-        cursor: cursor,
+      const { data } = await axios.post(`/api`, {
+        query,
+        variables: { ...variables, cursor: cursor },
       });
 
       if (data.response) {

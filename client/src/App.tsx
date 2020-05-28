@@ -4,6 +4,7 @@ import Issue from "./Component/Issue/Issue";
 import TabPanel from "./Component/TabPanel/TabPanel";
 import Navbar from "./Component/Navbar/Navbar";
 import useFetch from "./hooks/useFetch";
+import { pullRequestsQuery, issuesQuery } from "./graphqlQuery/query";
 
 const App = () => {
   console.log("APP");
@@ -14,21 +15,21 @@ const App = () => {
 
   const RequestDict = {
     pullRequests: {
-      variable: { ...reposQuery },
-      path: `/api/pullRequests`,
+      variables: { ...reposQuery },
+      query: pullRequestsQuery,
     },
     openIssues: {
-      variable: { ...reposQuery, states: ["OPEN"] },
-      path: `/api/issues`,
+      variables: { ...reposQuery, states: ["OPEN"] },
+      query: issuesQuery,
     },
 
     closedIssues: {
-      variable: { ...reposQuery, states: ["CLOSED"] },
-      path: `/api/issues`,
+      variables: { ...reposQuery, states: ["CLOSED"] },
+      query: issuesQuery,
     },
   };
 
-  const { variable, path } = RequestDict[currentTab];
+  const { variables, query } = RequestDict[currentTab];
 
   const {
     data,
@@ -37,7 +38,9 @@ const App = () => {
     fetchData,
     fetchMore,
     fetchMoreResult,
-  } = useFetch(path, variable, {
+  } = useFetch({
+    query,
+    variables,
     skip: !reposQuery.name /*avoid fetching during initial render*/,
   });
 
@@ -57,7 +60,7 @@ const App = () => {
 
   if (fetchMoreResult) {
     const { issues, pullRequests } = fetchMoreResult.newData.repository;
-    const previousEdges = fetchMoreResult.previousData.edges;
+    const previousEdges = fetchMoreResult.previousData;
     displayData = issues || pullRequests;
     displayData.edges = [...previousEdges, ...displayData.edges];
   }
@@ -89,8 +92,10 @@ const App = () => {
             {hasNextPage && (
               <button
                 onClick={() => {
-                  console.log("button", endCursor);
-                  fetchMore({ previousData: displayData, cursor: endCursor });
+                  fetchMore({
+                    previousData: displayData.edges,
+                    cursor: endCursor,
+                  });
                 }}
               >
                 Load more... ({lengthOfEdgesShown}/{displayData.totalCount})
