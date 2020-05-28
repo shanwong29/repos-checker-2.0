@@ -85,23 +85,28 @@ const App = () => {
         {/* {isLoading && <p>loading...</p>} */}
         {errorFromGithubApi && <p>{errorFromGithubApi}</p>}
         {data && (
-          <Fragment>
-            <h1>{data.repository.name}</h1>
+          <>
+            <h1>
+              {data.repository.owner.login} / {data.repository.name}
+            </h1>
             <TabPanel currentTab={currentTab} setCurrentTab={setCurrentTab} />
             <Issue issue={displayData} />
             {hasNextPage && (
-              <button
-                onClick={() => {
-                  fetchMore({
-                    previousData: displayData.edges,
-                    cursor: endCursor,
-                  });
-                }}
-              >
-                Load more... ({lengthOfEdgesShown}/{displayData.totalCount})
-              </button>
+              <div className={classes.fetchMoreBtnWrapper}>
+                <button
+                  className={classes.fetchMoreBtn}
+                  onClick={() => {
+                    fetchMore({
+                      previousData: displayData.edges,
+                      cursor: endCursor,
+                    });
+                  }}
+                >
+                  Load more... ({lengthOfEdgesShown}/{displayData.totalCount})
+                </button>
+              </div>
             )}
-          </Fragment>
+          </>
         )}
       </div>
     </>

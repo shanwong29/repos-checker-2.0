@@ -15,8 +15,15 @@ const AuthorBasicInfo: React.FC<IProps> = ({
 }) => {
   return (
     <>
-      <img src={avatarUrl} alt={authorName} className={classes.profilePic} />
-      <strong>{authorName}</strong>
+      <a
+        className={classes.link}
+        href={`https://github.com/${authorName}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img src={avatarUrl} alt={authorName} className={classes.profilePic} />
+        <strong>{authorName}</strong>
+      </a>
       <span> &#8226; {getFormattedDate(timeStamp)}</span>
     </>
   );

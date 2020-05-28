@@ -18,6 +18,11 @@
   padding: 10px 0;
 }
 
+.btnWrapper {
+  align-self: flex-end;
+  color: orangered;
+}
+
 .toggleBtn {
   color: brownOrange;
   align-self: flex-end;
@@ -25,4 +30,19 @@
 
 .toggleBtn:hover {
   color: #e63946;
+}
+
+.toggleBtnDisabled {
+  color: grey;
+  cursor: text;
+}
+
+@media only screen and (max-width: 640px) {
+  .issueDetailsWrapper {
+    padding-left: 35px; /*photo size*/
+  }
+
+  .issueWrapper {
+    padding: 5px;
+  }
 }

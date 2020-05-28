@@ -23,8 +23,10 @@
 
 .link {
   color: mainDarkBlue;
-  padding: 0 20px;
+  margin: 0 15px;
+  padding: 5px 8px;
   text-decoration: none;
+  font-size: 1rem;
 }
 
 .link:hover {
@@ -97,6 +99,9 @@
   .form {
     width: 94%;
     left: 3%;
+  }
+  .link {
+    margin: 0 0 0 15px;
   }
 }
 

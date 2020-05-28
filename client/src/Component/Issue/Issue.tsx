@@ -8,7 +8,6 @@ interface Iprops {
 }
 
 const Issue: React.FC<Iprops> = ({ issue }) => {
-  console.log("Issue, ", issue);
   console.log("ISSUES");
   const [activeIssue, setActiveIssue] = useState<number | null>(null);
   const [showComments, setShowComments] = useState<boolean>(false);
@@ -16,8 +15,6 @@ const Issue: React.FC<Iprops> = ({ issue }) => {
   useEffect(() => {
     setActiveIssue(null);
   }, [issue]);
-
-  console.log(issue.totalCount);
 
   issue = issue.edges.map((el: any, issueIndex: number) => {
     // const comments = el.node.comments.edges;

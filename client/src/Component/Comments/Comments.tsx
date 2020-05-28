@@ -48,7 +48,6 @@ const Comments: React.FC<IProps> = ({ ID }) => {
 
   if (displayComments) {
     const { pageInfo } = displayComments;
-
     hasNextPage = pageInfo.hasNextPage;
     endCursor = pageInfo.endCursor;
     totalCount = displayComments.totalCount;
@@ -81,6 +80,7 @@ const Comments: React.FC<IProps> = ({ ID }) => {
       {displayElements}
       {hasNextPage && (
         <button
+          className={classes.fetchMoreBtn}
           onClick={() => {
             fetchMore({
               previousData: displayComments.edges,
@@ -88,7 +88,7 @@ const Comments: React.FC<IProps> = ({ ID }) => {
             });
           }}
         >
-          View more comments... ({displayComments.edges.length} / {totalCount})
+          View more comments... ({displayComments.edges.length}/{totalCount})
         </button>
       )}
     </div>

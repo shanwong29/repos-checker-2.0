@@ -3,6 +3,7 @@
 
 .commentsWrapper {
   padding: 5px;
+  margin-top: 20px;
   background: white;
 }
 
@@ -15,4 +16,15 @@
   border-top: solid borderColor 1px;
   padding: 5px 0;
   margin-top: 15px;
+}
+
+.fetchMoreBtn {
+  margin-top: 25px;
+  color: #dd6e42;
+}
+
+@media only screen and (max-width: 640px) {
+  .commentText {
+    padding-left: 35px; /*photo size*/
+  }
 }

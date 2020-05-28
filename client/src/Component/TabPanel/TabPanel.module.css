@@ -4,6 +4,7 @@
 .tapWrapper {
   margin: 1rem 0;
   border-bottom: 3px solid #96cbef;
+  display: flex;
 }
 
 .normalTap {
@@ -26,7 +27,15 @@
 }
 
 @media only screen and (max-width: 640px) {
+  .tapWrapper {
+    justify-content: space-between;
+  }
+
+  .normalTap:last-child {
+    margin-right: 0px;
+  }
+
   .normalTap {
-    width: calc((100% / 3) - 5px);
+    width: calc((100% / 3));
   }
 }
