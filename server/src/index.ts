@@ -1,6 +1,11 @@
 import express from "express";
 require("dotenv").config();
 import { GraphQLClient } from "graphql-request";
+import {
+  commentFragment,
+  authorFragment,
+  pageInfoFragment,
+} from "./router/graphqlFragment";
 
 const PORT = 5000;
 
@@ -10,7 +15,7 @@ app.use(express.json());
 
 const endPoint = "https://api.github.com/graphql";
 
-const client = new GraphQLClient(endPoint, {
+export const client = new GraphQLClient(endPoint, {
   headers: { Authorization: `Bearer ${process.env.GITHUB_API_KEY}` },
 });
 
@@ -25,8 +30,7 @@ app.post("/api/pullRequests", async (req, res, next) => {
       pullRequests(first: 5, after: $cursor, orderBy: {field: CREATED_AT, direction: DESC}) {
         totalCount
         pageInfo {
-          endCursor
-          hasNextPage
+          ...pageInfoData
         }
         edges {
           cursor
@@ -36,8 +40,7 @@ app.post("/api/pullRequests", async (req, res, next) => {
             createdAt
             bodyHTML
             author {
-              login
-              avatarUrl
+              ...authorInfo
             }
             comments {
               totalCount
@@ -45,9 +48,11 @@ app.post("/api/pullRequests", async (req, res, next) => {
           }
         }
       }
-     
     }
-  }`;
+  }
+  ${authorFragment}
+  ${pageInfoFragment}
+  `;
 
   try {
     const data = await client.request(query, req.body);
@@ -68,8 +73,7 @@ app.post("/api/issues", async (req, res, next) => {
       issues(states:$states, first: 5, after: $cursor,orderBy: {field: CREATED_AT, direction: DESC}) {
         totalCount
         pageInfo {
-          endCursor
-          hasNextPage
+          ...pageInfoData
         }
         edges {
           cursor
@@ -79,8 +83,7 @@ app.post("/api/issues", async (req, res, next) => {
             createdAt
             bodyHTML
             author {
-              login
-              avatarUrl
+              ...authorInfo
             }
             comments {
               totalCount
@@ -89,7 +92,10 @@ app.post("/api/issues", async (req, res, next) => {
         }
       }
     }
-  }`;
+  }
+  ${authorFragment}
+  ${pageInfoFragment}
+  `;
 
   try {
     const data = await client.request(query, req.body);
@@ -99,50 +105,25 @@ app.post("/api/issues", async (req, res, next) => {
   }
 });
 
-app.post("/api/comments", async (req, res, next) => {
+app.post("/api/comments", async (req, res) => {
   const query = `
-  query ($ID: ID!, $cursor:String) {
-    node(id: $ID) {
-      ... on PullRequest {
-        comments(first: 10, after:$cursor) {
-          totalCount
-          pageInfo {
-            endCursor
-            hasNextPage
-          }
-          edges {
-            node {
-              author {
-                login
-                avatarUrl
-              }
-              createdAt
-              bodyHTML
-            }
+    query ($ID: ID!, $cursor: String) {
+      node(id: $ID) {
+        ... on PullRequest {
+          comments(first: 5, after: $cursor) {
+            ...commentInfo
           }
         }
-      }
-      ... on Issue {
-        comments(first: 10, after:$cursor) {
-          totalCount
-          pageInfo {
-            endCursor
-            hasNextPage
-          }
-          edges {
-            node {
-              author {
-                login
-                avatarUrl
-              }
-              createdAt
-              bodyHTML
-            }
+        ... on Issue {
+          comments(first: 5, after: $cursor) {
+            ...commentInfo
           }
         }
       }
     }
-  }`;
+  
+    ${commentFragment}
+    `;
 
   try {
     const data = await client.request(query, req.body);
@@ -151,11 +132,19 @@ app.post("/api/comments", async (req, res, next) => {
     res.json(err);
   }
 });
+
+// // const pullRequests = require("./router/pullRequests");
+// // app.use("/api/pullRequests", pullRequests);
+// // const issues = require("./router/issues");
+// // app.use("/api/issues", issues);
+// const comments = require("./router/comments");
+// app.use("/api/comments", comments);
 
 app.listen(PORT, () => {
   console.log(`server is running on ${PORT}`);
 });
 
 /*
+ 
 
 */
