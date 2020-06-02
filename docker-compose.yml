@@ -1,9 +1,9 @@
 version: "3.4"
 services:
   server:
-    env_file:
-      - ./server/.env
     container_name: repos-checker-backend
+    environment:
+      GITHUB_API_KEY: ${GITHUB_API_KEY}
     build:
       context: ./server
       target: development
