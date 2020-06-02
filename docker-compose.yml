@@ -1,10 +1,12 @@
-version: "3"
+version: "3.4"
 services:
   server:
+    env_file:
+      - ./server/.env
     container_name: repos-checker-backend
-    environment:
-      GITHUB_API_KEY: ${GITHUB_API_KEY}
-    build: ./server
+    build:
+      context: ./server
+      target: development
     volumes:
       - ./server/src/index.ts:/usr/app/backend/src/index.ts
     ports:
@@ -13,7 +15,9 @@ services:
     container_name: repos-checker-frontend
     environment:
       API_HOST: "${API_HOST:-http://server:5000}"
-    build: ./client
+    build:
+      context: ./client
+      target: development
     ports:
       - "3000:3000"
     volumes:
