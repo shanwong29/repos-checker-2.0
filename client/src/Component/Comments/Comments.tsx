@@ -8,12 +8,11 @@ import { commentsQuery } from "../../graphqlQuery/query";
 the React TypeScripts types allow us to handle children and defaultProps correctly.  */
 
 interface IProps {
-  // comments: any;
   ID: string;
 }
 
 const Comments: React.FC<IProps> = ({ ID }) => {
-  console.log("Comments,", ID);
+  console.log("Comments");
 
   const {
     data,

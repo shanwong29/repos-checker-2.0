@@ -10,13 +10,13 @@ app.use(express.json());
 
 const endPoint = "https://api.github.com/graphql";
 
-export const client = new GraphQLClient(endPoint, {
+const client = new GraphQLClient(endPoint, {
   headers: { Authorization: `Bearer ${process.env.GITHUB_API_KEY}` },
 });
 
 app.post("/api", async (req, res, next) => {
-  console.log(req.body, "test req.body");
-  console.log(req.body.variables, "test req.body.variables");
+  // console.log(req.body, "test req.body");
+  // console.log(req.body.variables, "test req.body.variables");
 
   try {
     const data = await client.request(req.body.query, req.body.variables);

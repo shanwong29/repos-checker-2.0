@@ -13,7 +13,7 @@ const App = () => {
   >("pullRequests");
   const [reposQuery, setReposQuery] = useState({ owner: "", name: "" });
 
-  const RequestDict = {
+  const requestDict = {
     pullRequests: {
       variables: { ...reposQuery },
       query: pullRequestsQuery,
@@ -29,7 +29,7 @@ const App = () => {
     },
   };
 
-  const { variables, query } = RequestDict[currentTab];
+  const { variables, query } = requestDict[currentTab];
 
   const {
     data,
@@ -71,8 +71,6 @@ const App = () => {
     lengthOfEdgesShown = displayData.edges.length;
   }
 
-  // console.log(displayData, displayData.pageInfo.endCursor);
-
   if (errorFromServer) {
     return <h1>Something goes wrong!</h1>;
   }
@@ -82,7 +80,6 @@ const App = () => {
       <Navbar setReposQuery={setReposQuery} />
 
       <div className={classes.reposInfo}>
-        {/* {isLoading && <p>loading...</p>} */}
         {errorFromGithubApi && <p>{errorFromGithubApi}</p>}
         {data && (
           <>

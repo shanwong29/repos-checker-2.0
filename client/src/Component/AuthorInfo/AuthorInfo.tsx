@@ -3,9 +3,9 @@ import { getFormattedDate } from "../../service/getFormattedDate";
 import classes from "./AuthorInfo.module.css";
 
 interface IProps {
-  authorName: any;
-  avatarUrl: any;
-  timeStamp: any;
+  authorName: string;
+  avatarUrl: string;
+  timeStamp: string;
 }
 
 const AuthorBasicInfo: React.FC<IProps> = ({

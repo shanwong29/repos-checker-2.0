@@ -17,7 +17,6 @@ const Issue: React.FC<Iprops> = ({ issue }) => {
   }, [issue]);
 
   issue = issue.edges.map((el: any, issueIndex: number) => {
-    // const comments = el.node.comments.edges;
     const numOfComments = el.node.comments.totalCount;
 
     const { login, avatarUrl } = el.node.author;

@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./TabPanel.module.css";
 
 interface IProps {
-  currentTab: any;
+  currentTab: "pullRequests" | "openIssues" | "closedIssues";
   setCurrentTab: any;
 }
 
