@@ -1,8 +1,8 @@
 import express from "express";
-require("dotenv").config();
 import { GraphQLClient } from "graphql-request";
+require("dotenv").config();
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 const app: express.Application = express();
 
@@ -15,15 +15,16 @@ const client = new GraphQLClient(endPoint, {
 });
 
 app.post("/api", async (req, res, next) => {
-  // console.log(req.body, "test req.body");
-  // console.log(req.body.variables, "test req.body.variables");
-
   try {
     const data = await client.request(req.body.query, req.body.variables);
     res.json(data);
   } catch (err) {
     res.json(err);
   }
+});
+
+app.get("/", (req, res) => {
+  res.send("repos-checker-server");
 });
 
 app.listen(PORT, () => {

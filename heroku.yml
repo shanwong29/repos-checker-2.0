@@ -1,8 +1,8 @@
-build:
-  docker:
-    release:
-      dockerfile: server/Dockerfile
-      target: production
-    web: server/Dockerfile
+setup:
   config:
     GITHUB_API_KEY: ${GITHUB_API_KEY}
+build:
+  docker:
+    web:
+      dockerfile: server/Dockerfile
+      target: production
