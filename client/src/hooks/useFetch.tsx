@@ -1,5 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
+import { config } from "../constants";
+
+const url = config.url.API_URL;
 
 interface FetchIssuesOrPrVariables {
   owner: string;
@@ -34,7 +37,7 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
     }
 
     try {
-      const { data } = await axios.post(`/api`, {
+      const { data } = await axios.post(url, {
         query,
         variables,
       });
@@ -73,7 +76,7 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
     const { cursor } = fetchMoreReqObj;
 
     try {
-      const { data } = await axios.post(`/api`, {
+      const { data } = await axios.post(url, {
         query,
         variables: { ...variables, cursor: cursor },
       });
