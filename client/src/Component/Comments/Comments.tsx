@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import AuthorInfo from "../AuthorInfo/AuthorInfo";
+import LoadingCircle from "../LoadingCircle/LoadingCircle";
 import classes from "./Comments.module.css";
 import useFetch from "../../hooks/useFetch";
 
@@ -20,6 +21,7 @@ const Comments: React.FC<IProps> = ({ ID }) => {
     fetchData,
     fetchMore,
     fetchMoreResult,
+    isLoading,
   } = useFetch({
     queryType: "comments",
     variables: { ID },
@@ -72,26 +74,30 @@ const Comments: React.FC<IProps> = ({ ID }) => {
       );
     });
 
-  return displayElements ? (
-    <div className={classes.commentsWrapper}>
-      <h3>Comments ({totalCount})</h3>
-      {displayElements}
-      {hasNextPage && (
-        <button
-          className={classes.fetchMoreBtn}
-          onClick={() => {
-            fetchMore({
-              previousData: displayComments.edges,
-              cursor: endCursor,
-            });
-          }}
-        >
-          View more comments... ({displayComments.edges.length}/{totalCount})
-        </button>
+  return (
+    <>
+      {isLoading && <LoadingCircle />}
+      {displayElements && (
+        <div className={classes.commentsWrapper}>
+          <h3>Comments ({totalCount})</h3>
+          {displayElements}
+          {hasNextPage && (
+            <button
+              className={classes.fetchMoreBtn}
+              onClick={() => {
+                fetchMore({
+                  previousData: displayComments.edges,
+                  cursor: endCursor,
+                });
+              }}
+            >
+              View more comments... ({displayComments.edges.length}/{totalCount}
+              )
+            </button>
+          )}
+        </div>
       )}
-    </div>
-  ) : (
-    <></>
+    </>
   );
 };
 

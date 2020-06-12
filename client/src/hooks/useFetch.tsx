@@ -30,6 +30,7 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
   );
   const [errorFromServer, setErrorFromServer] = useState<string | null>(null);
   const [fetchMoreResult, setFetchMoreResult] = useState<any | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchData = async () => {
     if (skip) {
@@ -37,6 +38,7 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
     }
 
     try {
+      setIsLoading(true);
       const { data } = await axios.post(url, {
         queryType,
         variables,
@@ -48,6 +50,7 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
         setData(null);
         setErrorFromServer(null);
         setFetchMoreResult(null);
+        setIsLoading(false);
         return;
       }
 
@@ -60,6 +63,7 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
         setData(null);
         setErrorFromServer(null);
         setFetchMoreResult(null);
+        setIsLoading(false);
         return;
       }
 
@@ -68,10 +72,12 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
       setErrorFromGithubApi(null);
       setErrorFromServer(null);
       setFetchMoreResult(null);
+      setIsLoading(false);
     } catch (err) {
       //error from server
       setErrorFromServer(err);
       setData(null);
+      setIsLoading(false);
     }
   };
 
@@ -88,6 +94,7 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
     const { cursor } = fetchMoreReqObj;
 
     try {
+      setIsLoading(true);
       const { data } = await axios.post(url, {
         queryType,
         variables: { ...variables, cursor: cursor },
@@ -96,6 +103,7 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
       if (data.response) {
         //when no data is found
         setErrorFromGithubApi(data.response.errors[0].message);
+        setIsLoading(false);
         return;
       }
       //when more data successfully retrived
@@ -103,9 +111,11 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
         previousData: fetchMoreReqObj.previousData,
         newData: data,
       });
+      setIsLoading(false);
     } catch (err) {
       //error from server
       setErrorFromServer(err);
+      setIsLoading(false);
     }
   };
 
@@ -116,6 +126,7 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
     fetchData,
     fetchMore,
     fetchMoreResult,
+    isLoading,
   };
 };
 

@@ -3,10 +3,12 @@ import classes from "./App.module.css";
 import Issue from "./Component/Issue/Issue";
 import TabPanel from "./Component/TabPanel/TabPanel";
 import Navbar from "./Component/Navbar/Navbar";
+import LoadingCircle from "./Component/LoadingCircle/LoadingCircle";
 import useFetch from "./hooks/useFetch";
 
 const App = () => {
   console.log("APP");
+
   const [currentTab, setCurrentTab] = useState<
     "pullRequests" | "openIssues" | "closedIssues"
   >("pullRequests");
@@ -37,6 +39,7 @@ const App = () => {
     fetchData,
     fetchMore,
     fetchMoreResult,
+    isLoading,
   } = useFetch({
     queryType,
     variables,
@@ -76,6 +79,7 @@ const App = () => {
 
   return (
     <>
+      {isLoading && <LoadingCircle />}
       <Navbar setReposQuery={setReposQuery} />
 
       <div className={classes.reposInfo}>
