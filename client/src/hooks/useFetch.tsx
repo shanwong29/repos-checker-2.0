@@ -15,14 +15,14 @@ interface FetchCommentsVariables {
 }
 
 interface useFetchReqObj {
-  query: string;
+  queryType: string;
   variables: FetchIssuesOrPrVariables | FetchCommentsVariables;
   skip: boolean;
 }
 
 const useFetch = (useFetchReqObj: useFetchReqObj) => {
   console.log("USEFETCH");
-  const { query, variables, skip } = useFetchReqObj;
+  const { queryType, variables, skip } = useFetchReqObj;
 
   const [data, setData] = useState<any | null>(null);
   const [errorFromGithubApi, setErrorFromGithubApi] = useState<string | null>(
@@ -38,7 +38,7 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
 
     try {
       const { data } = await axios.post(url, {
-        query,
+        queryType,
         variables,
       });
 
@@ -77,7 +77,7 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
 
     try {
       const { data } = await axios.post(url, {
-        query,
+        queryType,
         variables: { ...variables, cursor: cursor },
       });
 

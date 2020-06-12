@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import AuthorInfo from "../AuthorInfo/AuthorInfo";
 import classes from "./Comments.module.css";
 import useFetch from "../../hooks/useFetch";
-import { commentsQuery } from "../../graphqlQuery/query";
 
 /*By typing our component as an FC, 
 the React TypeScripts types allow us to handle children and defaultProps correctly.  */
@@ -22,7 +21,7 @@ const Comments: React.FC<IProps> = ({ ID }) => {
     fetchMore,
     fetchMoreResult,
   } = useFetch({
-    query: commentsQuery,
+    queryType: "comments",
     variables: { ID },
     skip: !ID /*avoid fetching during initial render*/,
   });

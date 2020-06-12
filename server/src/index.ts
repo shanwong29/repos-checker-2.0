@@ -1,17 +1,20 @@
 import express from "express";
 import { GraphQLClient } from "graphql-request";
+import { graphqlQueries } from "./graphqlQuery/query";
 const cors = require("cors");
 
 require("dotenv").config();
 
 const PORT = process.env.PORT || 5000;
 
+const deployedSite = "https://shanwong29.github.io";
+
 const app: express.Application = express();
 
 app.use(
   cors({
     credentials: true,
-    origin: ["https://shanwong29.github.io"], // <== the URL of deployed React app
+    origin: [deployedSite],
   })
 );
 
@@ -24,8 +27,14 @@ const client = new GraphQLClient(endPoint, {
 });
 
 app.post("/api", async (req, res, next) => {
+  if (!req.body.queryType) {
+    return;
+  }
+
+  const type = req.body.queryType as string;
+  const query = graphqlQueries[type];
   try {
-    const data = await client.request(req.body.query, req.body.variables);
+    const data = await client.request(query, req.body.variables);
     res.json(data);
   } catch (err) {
     res.json(err);

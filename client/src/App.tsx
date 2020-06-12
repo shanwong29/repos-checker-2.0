@@ -1,10 +1,9 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./App.module.css";
 import Issue from "./Component/Issue/Issue";
 import TabPanel from "./Component/TabPanel/TabPanel";
 import Navbar from "./Component/Navbar/Navbar";
 import useFetch from "./hooks/useFetch";
-import { pullRequestsQuery, issuesQuery } from "./graphqlQuery/query";
 
 const App = () => {
   console.log("APP");
@@ -16,20 +15,20 @@ const App = () => {
   const requestDict = {
     pullRequests: {
       variables: { ...reposQuery },
-      query: pullRequestsQuery,
+      queryType: "pullRequests",
     },
     openIssues: {
       variables: { ...reposQuery, states: ["OPEN"] },
-      query: issuesQuery,
+      queryType: "issues",
     },
 
     closedIssues: {
       variables: { ...reposQuery, states: ["CLOSED"] },
-      query: issuesQuery,
+      queryType: "issues",
     },
   };
 
-  const { variables, query } = requestDict[currentTab];
+  const { variables, queryType } = requestDict[currentTab];
 
   const {
     data,
@@ -39,7 +38,7 @@ const App = () => {
     fetchMore,
     fetchMoreResult,
   } = useFetch({
-    query,
+    queryType,
     variables,
     skip: !reposQuery.name /*avoid fetching during initial render*/,
   });
