@@ -51,6 +51,18 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
         return;
       }
 
+      if (data.repository === null) {
+        //when requested repository is private
+        const { name } = variables as FetchIssuesOrPrVariables;
+        setErrorFromGithubApi(
+          `Could not resolve to a Repository with the name '${name}'.`
+        );
+        setData(null);
+        setErrorFromServer(null);
+        setFetchMoreResult(null);
+        return;
+      }
+
       // when data successfully retrieved
       setData(data);
       setErrorFromGithubApi(null);
