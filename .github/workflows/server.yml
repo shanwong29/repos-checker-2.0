@@ -1,0 +1,31 @@
+name: repos-checker Node deploy
+
+on:
+  push:
+    paths:
+      - "heroku.yml"
+      - "server/**"
+      - "!server/terraform/**"
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      # - name: Use Node.js
+      #   uses: actions/setup-node@v1
+      #   with:
+      #     node-version: '12.16.1'
+      # - run: npm install
+      # - run: npm run build --if-present
+      # - run: npm test
+      - name: Deploy to Heroku
+        env:
+          HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
+          HEROKU_APP_NAME: "repos-checker-server"
+        if: ${{ success() }}
+        run: git push https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git origin/master:master
