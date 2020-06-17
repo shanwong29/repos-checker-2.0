@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/repos-checker-2.0/static/css/main.e094a29f.chunk.css",
+    "main.js": "/repos-checker-2.0/static/js/main.d07ea196.chunk.js",
+    "main.js.map": "/repos-checker-2.0/static/js/main.d07ea196.chunk.js.map",
+    "runtime-main.js": "/repos-checker-2.0/static/js/runtime-main.a87f64a8.js",
+    "runtime-main.js.map": "/repos-checker-2.0/static/js/runtime-main.a87f64a8.js.map",
+    "static/js/2.690188fd.chunk.js": "/repos-checker-2.0/static/js/2.690188fd.chunk.js",
+    "static/js/2.690188fd.chunk.js.map": "/repos-checker-2.0/static/js/2.690188fd.chunk.js.map",
+    "index.html": "/repos-checker-2.0/index.html",
+    "precache-manifest.3904c4fb8429a1dec6674c9caa42880c.js": "/repos-checker-2.0/precache-manifest.3904c4fb8429a1dec6674c9caa42880c.js",
+    "service-worker.js": "/repos-checker-2.0/service-worker.js",
+    "static/css/main.e094a29f.chunk.css.map": "/repos-checker-2.0/static/css/main.e094a29f.chunk.css.map",
+    "static/js/2.690188fd.chunk.js.LICENSE.txt": "/repos-checker-2.0/static/js/2.690188fd.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a87f64a8.js",
+    "static/js/2.690188fd.chunk.js",
+    "static/css/main.e094a29f.chunk.css",
+    "static/js/main.d07ea196.chunk.js"
+  ]
+}
