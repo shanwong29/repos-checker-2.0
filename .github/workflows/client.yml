@@ -30,5 +30,6 @@ jobs:
           CI=false npm run build
           git add build/ --force
           git commit -m "Publish"
+          git rebase -i
           git remote add pages https://x-access-token:$ACCESS_TOKEN@github.com/shanwong29/repos-checker-2.0.git
-          git push pages HEAD:refs/heads/gh-pages --force
+          git push pages $(git rev-parse HEAD):refs/heads/gh-pages --force
