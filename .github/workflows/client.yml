@@ -1,0 +1,30 @@
+name: repos-checker-2.0 client deploy
+on:
+  push:
+    paths:
+      - "client.yml"
+      - "client/**"
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: refs/heads/master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: build the static files and push them to gh-pages branch
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          TARGET_BRANCH: gh-pages
+        run: |
+          npm ci
+          npm run build
+          git add client/build --force
+          git commit -m "Publish"
+          git remote add pages https://x-access-token:$ACCESS_TOKEN@github.com/shanwong29/repos-checker-2.0.git
+          git push pages $TARGET_BRANCH -f

@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - "heroku.yml"
-      - ".github/**"
+      # - ".github/workflows/server.yml"
       - "server/**"
       - "!server/terraform/**"
     branches:
