@@ -2,7 +2,7 @@ name: repos-checker-2.0 client deploy
 on:
   push:
     paths:
-      - "client.yml"
+      - ".github/workflows/client.yml"
       - "client/**"
     branches:
       - master
@@ -13,18 +13,22 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: refs/heads/master
+          fetch-depth: 0
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - name: build the static files and push them to gh-pages branch
+      - name: set account identity
         env:
+          USER_NAME: ${{ secrets.USER_NAME }}
+          EMAIL: ${{ secrets.EMAIL }}
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          TARGET_BRANCH: gh-pages
         run: |
+          git config user.name $USER_NAME
+          git config user.email $EMAIL
+          cd client/
           npm ci
-          npm run build
-          git add client/build --force
+          CI=false npm run build
+          git add build/ --force
           git commit -m "Publish"
           git remote add pages https://x-access-token:$ACCESS_TOKEN@github.com/shanwong29/repos-checker-2.0.git
-          git push pages $TARGET_BRANCH -f
+          git push pages HEAD:refs/heads/gh-pages --force
