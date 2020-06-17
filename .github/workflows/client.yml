@@ -1,4 +1,4 @@
-name: repos-checker-2.0 client deploy
+name: repos-checker client deploy
 on:
   push:
     paths:
@@ -17,19 +17,13 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - name: set account identity
-        env:
-          USER_NAME: ${{ secrets.USER_NAME }}
-          EMAIL: ${{ secrets.EMAIL }}
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      - name: Build the static files
         run: |
-          git config user.name $USER_NAME
-          git config user.email $EMAIL
           cd client/
           npm ci
           CI=false npm run build
-          git add build/ --force
-          git commit -m "Publish"
-          git rebase -i
-          git remote add pages https://x-access-token:$ACCESS_TOKEN@github.com/shanwong29/repos-checker-2.0.git
-          git push pages $(git rev-parse HEAD):refs/heads/gh-pages --force
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3.6.1
+        with:
+          personal_token: ${{ secrets.ACCESS_TOKEN }}
+          publish_dir: ./client/build
