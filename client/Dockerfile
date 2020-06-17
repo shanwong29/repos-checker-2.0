@@ -23,4 +23,5 @@ FROM nginx:1.15.0 as production
 COPY --from=production-build-stage /usr/app/client/build /usr/share/nginx/html
 
 
-
+# docker run ==> run ENTRYPOINT and then immediately CMD, but NOT RUN
+# docker build ==> run RUN, but NOT ENTRYPOINT and CMD

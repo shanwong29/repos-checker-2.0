@@ -60,7 +60,7 @@ const Navbar: React.FC<IProps> = ({ setReposQuery }) => {
             type="text"
             placeholder=" "
           />
-          <span className={classes.placeholder}>e.g. google / jax</span>
+          <span className={classes.placeholder}>e.g. google / go-github</span>
           <button className={classes.submitBtn} type="submit">
             Search
           </button>
