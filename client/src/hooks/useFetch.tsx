@@ -30,6 +30,7 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
   );
   const [errorFromServer, setErrorFromServer] = useState<string | null>(null);
   const [fetchMoreResult, setFetchMoreResult] = useState<any | null>(null);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchData = async () => {
@@ -39,22 +40,22 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
 
     try {
       setIsLoading(true);
-      const { data } = await axios.post(url, {
+      const res = await axios.post(url, {
         queryType,
         variables,
       });
+      setIsLoading(false);
 
-      if (data.response) {
+      if (res.data.response) {
         //when no data is found
-        setErrorFromGithubApi(data.response.errors[0].message);
+        setErrorFromGithubApi(res.data.response.errors[0].message);
         setData(null);
         setErrorFromServer(null);
         setFetchMoreResult(null);
-        setIsLoading(false);
         return;
       }
 
-      if (data.repository === null) {
+      if (res.data.repository === null) {
         //when requested repository is private
         const { name } = variables as FetchIssuesOrPrVariables;
         setErrorFromGithubApi(
@@ -63,19 +64,19 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
         setData(null);
         setErrorFromServer(null);
         setFetchMoreResult(null);
-        setIsLoading(false);
         return;
       }
 
       // when data successfully retrieved
-      setData(data);
+      setData(res.data);
       setErrorFromGithubApi(null);
       setErrorFromServer(null);
       setFetchMoreResult(null);
-      setIsLoading(false);
     } catch (err) {
       //error from server
       setErrorFromServer(err);
+      setErrorFromGithubApi(null);
+      setFetchMoreResult(null);
       setData(null);
       setIsLoading(false);
     }
@@ -90,28 +91,30 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
     if (skip) {
       return;
     }
-
     const { cursor } = fetchMoreReqObj;
 
     try {
       setIsLoading(true);
-      const { data } = await axios.post(url, {
+      const res = await axios.post(url, {
         queryType,
         variables: { ...variables, cursor: cursor },
       });
 
-      if (data.response) {
+      setIsLoading(false);
+
+      if (res.data.response) {
         //when no data is found
-        setErrorFromGithubApi(data.response.errors[0].message);
-        setIsLoading(false);
+        setErrorFromGithubApi(res.data.response.errors[0].message);
         return;
       }
       //when more data successfully retrived
-      setFetchMoreResult({
-        previousData: fetchMoreReqObj.previousData,
-        newData: data,
-      });
-      setIsLoading(false);
+      else {
+        setFetchMoreResult({
+          previousData: fetchMoreReqObj.previousData,
+          newData: res.data,
+        });
+        return;
+      }
     } catch (err) {
       //error from server
       setErrorFromServer(err);

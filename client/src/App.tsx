@@ -60,6 +60,7 @@ const App = () => {
     displayData = issues || pullRequests;
   }
 
+  // if there is fetchmore results
   if (fetchMoreResult) {
     const { issues, pullRequests } = fetchMoreResult.newData.repository;
     const previousEdges = fetchMoreResult.previousData;
@@ -67,6 +68,7 @@ const App = () => {
     displayData.edges = [...previousEdges, ...displayData.edges];
   }
 
+  // when there is already existing data about the repos
   if (displayData) {
     endCursor = displayData.pageInfo.endCursor;
     hasNextPage = displayData.pageInfo.hasNextPage;
