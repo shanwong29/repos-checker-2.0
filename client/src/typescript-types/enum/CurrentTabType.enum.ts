@@ -1,0 +1,5 @@
+export enum CurrentTabType {
+  PULL_REQUESTS = "PULL_REQUESTS",
+  OPEN_ISSUES = "OPEN_ISSUES",
+  CLOSED_ISSUES = "CLOSED_ISSUES",
+}

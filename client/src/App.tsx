@@ -5,28 +5,37 @@ import TabPanel from "./Component/TabPanel/TabPanel";
 import Navbar from "./Component/Navbar/Navbar";
 import LoadingCircle from "./Component/LoadingCircle/LoadingCircle";
 import useFetch from "./hooks/useFetch";
+import { CurrentTabType } from "./typescript-types/enum/CurrentTabType.enum";
+import { QueryType } from "./typescript-types/enum/QueryTypes.enum";
+import {
+  Repository,
+  IssueConnection,
+  PullRequestConnection,
+  IssueEdge,
+  IssueState,
+} from "./typescript-types/generated/graphql";
 
 const App = () => {
   console.log("APP");
 
-  const [currentTab, setCurrentTab] = useState<
-    "pullRequests" | "openIssues" | "closedIssues"
-  >("pullRequests");
+  const [currentTab, setCurrentTab] = useState<CurrentTabType>(
+    CurrentTabType.PULL_REQUESTS
+  );
   const [reposQuery, setReposQuery] = useState({ owner: "", name: "" });
 
   const requestDict = {
-    pullRequests: {
+    PULL_REQUESTS: {
       variables: { ...reposQuery },
-      queryType: "pullRequests",
+      queryType: QueryType.PULL_REQUESTS,
     },
-    openIssues: {
-      variables: { ...reposQuery, states: ["OPEN"] },
-      queryType: "issues",
+    OPEN_ISSUES: {
+      variables: { ...reposQuery, states: [IssueState.Open] },
+      queryType: QueryType.ISSUES,
     },
 
-    closedIssues: {
-      variables: { ...reposQuery, states: ["CLOSED"] },
-      queryType: "issues",
+    CLOSED_ISSUES: {
+      variables: { ...reposQuery, states: [IssueState.Closed] },
+      queryType: QueryType.ISSUES,
     },
   };
 
@@ -50,29 +59,34 @@ const App = () => {
     fetchData();
   }, [reposQuery, currentTab]);
 
-  let displayData: any;
-  let endCursor: string;
-  let hasNextPage;
-  let lengthOfEdgesShown;
+  let displayData: IssueConnection | PullRequestConnection;
+  let endCursor: string | null | undefined;
+  let hasNextPage = false;
+  let lengthOfEdgesShown = 0;
 
   if (data) {
-    const { issues, pullRequests } = data.repository;
+    const { issues, pullRequests } = data.repository as Repository;
     displayData = issues || pullRequests;
+    // when there is already existing data about the repos
   }
 
   // if there is fetchmore results
   if (fetchMoreResult) {
-    const { issues, pullRequests } = fetchMoreResult.newData.repository;
+    const { issues, pullRequests } = fetchMoreResult.newData
+      .repository as Repository;
     const previousEdges = fetchMoreResult.previousData;
     displayData = issues || pullRequests;
-    displayData.edges = [...previousEdges, ...displayData.edges];
+    displayData.edges = [
+      ...previousEdges,
+      ...(displayData.edges as Array<IssueEdge>),
+    ];
   }
 
-  // when there is already existing data about the repos
+  //@ts-ignore
   if (displayData) {
     endCursor = displayData.pageInfo.endCursor;
     hasNextPage = displayData.pageInfo.hasNextPage;
-    lengthOfEdgesShown = displayData.edges.length;
+    lengthOfEdgesShown = displayData.edges ? displayData.edges.length : 0;
   }
 
   if (errorFromServer) {
@@ -92,7 +106,8 @@ const App = () => {
               {data.repository.owner.login} / {data.repository.name}
             </h1>
             <TabPanel currentTab={currentTab} setCurrentTab={setCurrentTab} />
-            <Issue issue={displayData} />
+            {/* @ts-ignore */}
+            <Issue issueEdge={displayData.edges} />
             {hasNextPage && (
               <div className={classes.fetchMoreBtnWrapper}>
                 <button
@@ -104,6 +119,7 @@ const App = () => {
                     });
                   }}
                 >
+                  {/* @ts-ignore */}
                   Load more... ({lengthOfEdgesShown}/{displayData.totalCount})
                 </button>
               </div>

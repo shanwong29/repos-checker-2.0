@@ -1,0 +1,5 @@
+export enum QueryType {
+  PULL_REQUESTS = "PULL_REQUESTS",
+  ISSUES = "ISSUES",
+  COMMENTS = "COMMENTS",
+}

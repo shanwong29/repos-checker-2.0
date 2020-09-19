@@ -1,17 +1,18 @@
 import React from "react";
 import classes from "./TabPanel.module.css";
+import { CurrentTabType } from "../../typescript-types/enum/CurrentTabType.enum";
 
 interface IProps {
-  currentTab: "pullRequests" | "openIssues" | "closedIssues";
+  currentTab: CurrentTabType;
   setCurrentTab: any;
 }
 
 const TabPanel: React.FC<IProps> = ({ currentTab, setCurrentTab }) => {
   console.log("PANEL");
   const tabs = [
-    { label: "Pull Requests", representedState: "pullRequests" },
-    { label: "Open Issues", representedState: "openIssues" },
-    { label: "Closed Issues", representedState: "closedIssues" },
+    { label: "Pull Requests", representedState: CurrentTabType.PULL_REQUESTS },
+    { label: "Open Issues", representedState: CurrentTabType.OPEN_ISSUES },
+    { label: "Closed Issues", representedState: CurrentTabType.CLOSED_ISSUES },
   ];
 
   const displayTabs = tabs.map((el, i) => {

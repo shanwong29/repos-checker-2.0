@@ -5,7 +5,7 @@ interface GraphqlObj {
 }
 
 const graphqlQueries: GraphqlObj = {
-  pullRequests: ` 
+  PULL_REQUESTS: ` 
     query($owner: String!, $name: String!, $cursor:String) {
       repository(owner: $owner, name: $name) {
         name
@@ -39,7 +39,7 @@ const graphqlQueries: GraphqlObj = {
     ${pageInfoFragment}
     `,
 
-  issues: `
+  ISSUES: `
     query($owner: String!, $name: String!, $states:	[IssueState!], $cursor:String) {
       repository(owner: $owner, name: $name) {
         name
@@ -73,7 +73,7 @@ const graphqlQueries: GraphqlObj = {
     ${pageInfoFragment}
     `,
 
-  comments: `
+  COMMENTS: `
     query ($ID: ID!, $cursor: String) {
       node(id: $ID) {
         ... on PullRequest {

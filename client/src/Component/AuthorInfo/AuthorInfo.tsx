@@ -5,7 +5,7 @@ import classes from "./AuthorInfo.module.css";
 interface IProps {
   authorName: string;
   avatarUrl: string;
-  timeStamp: string;
+  timeStamp: any;
 }
 
 const AuthorBasicInfo: React.FC<IProps> = ({

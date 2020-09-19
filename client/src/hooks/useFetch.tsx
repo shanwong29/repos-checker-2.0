@@ -1,26 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 import { config } from "../constants";
+import {
+  UseFetchReqObj,
+  FetchIssuesOrPrVariables,
+} from "../typescript-types/interface/useFetch.interface";
 
 const url = config.url.API_URL;
 
-interface FetchIssuesOrPrVariables {
-  owner: string;
-  name: string;
-  states?: any;
-}
-
-interface FetchCommentsVariables {
-  ID: string;
-}
-
-interface useFetchReqObj {
-  queryType: string;
-  variables: FetchIssuesOrPrVariables | FetchCommentsVariables;
-  skip: boolean;
-}
-
-const useFetch = (useFetchReqObj: useFetchReqObj) => {
+const useFetch = (useFetchReqObj: UseFetchReqObj) => {
   console.log("USEFETCH");
   const { queryType, variables, skip } = useFetchReqObj;
 
@@ -44,6 +32,7 @@ const useFetch = (useFetchReqObj: useFetchReqObj) => {
         queryType,
         variables,
       });
+
       setIsLoading(false);
 
       if (res.data.response) {

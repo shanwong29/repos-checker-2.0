@@ -3,6 +3,8 @@ import AuthorInfo from "../AuthorInfo/AuthorInfo";
 import LoadingCircle from "../LoadingCircle/LoadingCircle";
 import classes from "./Comments.module.css";
 import useFetch from "../../hooks/useFetch";
+import { QueryType } from "../../typescript-types/enum/QueryTypes.enum";
+import { IssueCommentConnection } from "../../typescript-types/generated/graphql";
 
 /*By typing our component as an FC, 
 the React TypeScripts types allow us to handle children and defaultProps correctly.  */
@@ -23,7 +25,7 @@ const Comments: React.FC<IProps> = ({ ID }) => {
     fetchMoreResult,
     isLoading,
   } = useFetch({
-    queryType: "comments",
+    queryType: QueryType.COMMENTS,
     variables: { ID },
     skip: !ID /*avoid fetching during initial render*/,
   });
@@ -32,17 +34,19 @@ const Comments: React.FC<IProps> = ({ ID }) => {
     fetchData();
   }, []);
 
-  let displayComments: any;
-  let hasNextPage: any;
-  let endCursor: any;
-  let totalCount: any;
+  let displayComments: IssueCommentConnection | null = null;
+  let hasNextPage = false;
+  let endCursor: string | null | undefined = null;
+  let totalCount = 0;
   if (data) {
-    displayComments = data.node.comments;
+    displayComments = data.node.comments as IssueCommentConnection;
   }
 
   if (fetchMoreResult) {
     const oldEdges = fetchMoreResult.previousData;
-    displayComments = fetchMoreResult.newData.node.comments;
+    displayComments = fetchMoreResult.newData.node
+      .comments as IssueCommentConnection;
+    //@ts-ignore
     displayComments.edges = [...oldEdges, ...displayComments.edges];
   }
 
@@ -53,8 +57,8 @@ const Comments: React.FC<IProps> = ({ ID }) => {
     totalCount = displayComments.totalCount;
   }
 
-  const displayElements =
-    displayComments &&
+  const displayElements = displayComments ? (
+    //@ts-ignore
     displayComments.edges.map((el: any, key: number) => {
       const { avatarUrl, login } = el.node.author;
 
@@ -72,31 +76,38 @@ const Comments: React.FC<IProps> = ({ ID }) => {
           />
         </div>
       );
-    });
+    })
+  ) : (
+    <div></div>
+  );
 
   return (
     <>
       {isLoading && <LoadingCircle />}
-      {displayElements && (
-        <div className={classes.commentsWrapper}>
-          <h3>Comments ({totalCount})</h3>
-          {displayElements}
-          {hasNextPage && (
-            <button
-              className={classes.fetchMoreBtn}
-              onClick={() => {
-                fetchMore({
-                  previousData: displayComments.edges,
-                  cursor: endCursor,
-                });
-              }}
-            >
-              View more comments... ({displayComments.edges.length}/{totalCount}
-              )
-            </button>
-          )}
-        </div>
-      )}
+
+      <div className={classes.commentsWrapper}>
+        <h3>Comments ({totalCount})</h3>
+        {displayElements}
+        {hasNextPage && (
+          <button
+            className={classes.fetchMoreBtn}
+            onClick={() => {
+              fetchMore({
+                //@ts-ignore
+                previousData: displayComments.edges,
+                cursor: endCursor,
+              });
+            }}
+          >
+            View more comments... (
+            {
+              //@ts-ignore
+              displayComments.edges.length
+            }
+            /{totalCount})
+          </button>
+        )}
+      </div>
     </>
   );
 };

@@ -2,37 +2,42 @@ import React, { useState, useEffect } from "react";
 import Comments from "../Comments/Comments";
 import AuthorInfo from "../AuthorInfo/AuthorInfo";
 import classes from "./Issue.module.css";
+import {
+  IssueEdge,
+  Actor,
+  PullRequestEdge,
+} from "../../typescript-types/generated/graphql";
 
 interface Iprops {
-  issue: any;
+  issueEdge: Array<IssueEdge | PullRequestEdge>;
 }
 
-const Issue: React.FC<Iprops> = ({ issue }) => {
+const Issue: React.FC<Iprops> = ({ issueEdge }) => {
   console.log("ISSUES");
   const [activeIssue, setActiveIssue] = useState<number | null>(null);
   const [showComments, setShowComments] = useState<boolean>(false);
 
   useEffect(() => {
     setActiveIssue(null);
-  }, [issue]);
+  }, [issueEdge]);
 
-  issue = issue.edges.map((el: any, issueIndex: number) => {
-    const numOfComments = el.node.comments.totalCount;
+  const issueJsx = issueEdge.map((el, issueIndex: number) => {
+    const numOfComments: number = el.node?.comments.totalCount || 0;
 
-    const { login, avatarUrl } = el.node.author;
-    const issueContent = el.node.bodyHTML;
+    const { login, avatarUrl } = el.node?.author as Actor;
+    const issueContent = el.node?.bodyHTML;
 
     const isActiveIssue = activeIssue === issueIndex;
 
     return (
       <div key={issueIndex} className={classes.issueWrapper}>
         <AuthorInfo
-          authorName={login}
-          avatarUrl={avatarUrl}
-          timeStamp={el.node.createdAt}
+          authorName={login || ""}
+          avatarUrl={avatarUrl || ""}
+          timeStamp={el.node?.createdAt || ""}
         />
         <div className={classes.issueDetailsWrapper}>
-          <h4>{el.node.title}</h4>
+          <h4>{el.node?.title}</h4>
 
           {!isActiveIssue && (
             <button
@@ -53,7 +58,7 @@ const Issue: React.FC<Iprops> = ({ issue }) => {
                 dangerouslySetInnerHTML={{ __html: issueContent }}
               />
 
-              {showComments && <Comments ID={el.node.id} />}
+              {showComments && <Comments ID={el.node?.id as string} />}
 
               <div className={classes.btnWrapper}>
                 {!showComments && (
@@ -89,7 +94,8 @@ const Issue: React.FC<Iprops> = ({ issue }) => {
       </div>
     );
   });
-  return issue;
+
+  return <React.Fragment>{issueJsx}</React.Fragment>;
 };
 
 export default Issue;
