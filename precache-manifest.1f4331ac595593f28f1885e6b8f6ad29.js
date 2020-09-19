@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a984f0984ea7b47ed2b69bf28d922050",
+    "revision": "c87c8916a8c81e49986ca6996db23ea8",
     "url": "/repos-checker-2.0/index.html"
   },
   {
-    "revision": "6a546a897bf9e56081c9",
-    "url": "/repos-checker-2.0/static/css/main.e094a29f.chunk.css"
+    "revision": "061b5867388cb0e31a83",
+    "url": "/repos-checker-2.0/static/css/main.80bf2510.chunk.css"
   },
   {
     "revision": "6281b24635c59da0c253",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/repos-checker-2.0/static/js/2.690188fd.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "6a546a897bf9e56081c9",
-    "url": "/repos-checker-2.0/static/js/main.acfe3af9.chunk.js"
+    "revision": "061b5867388cb0e31a83",
+    "url": "/repos-checker-2.0/static/js/main.711a63ec.chunk.js"
   },
   {
     "revision": "9dc734dfe956df67caec",
